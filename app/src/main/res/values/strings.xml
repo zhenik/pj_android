@@ -9,4 +9,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="navBottom_profile">Profile</string>
+    <string name="navBottom_groups">Groups</string>
+    <string name="navBottom_shop">Shop</string>
 </resources>
