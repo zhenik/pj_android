@@ -3,6 +3,7 @@ package woact.android.zhenik.pj;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,9 +41,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void devMode(){
-        //        db.clearDb();
+//                db.clearDb();
         // fake user
-        db.addUser(new User("nik", "password", "Nikita Zhevnitskiy"));
+        db.addUser(new User("nik", "a", "Nikita Zhevnitskiy"));
     }
 
     private void initInputTextViews(){
@@ -61,20 +62,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.login_login_btn:
-
-                String userName = userNameInput.getText().toString();
-                String password = passwordInput.getText().toString();
-
-                if (userName!=null & !"".equals(userName) & password!=null & !"".equals(password)){
-                    User user = db.getUserByNameAndPassword(userName, password);
-                    if (user!=null)
-//                        Toast.makeText(this, "WELCOME "+user.getFullName(), Toast.LENGTH_SHORT).show();
-                        Toasty.success(this, "WELCOME "+user.getFullName(), Toast.LENGTH_SHORT).show();
-                    else
-                        Toasty.error(this, "FAILURE - check input data", Toast.LENGTH_SHORT).show();
-                }
-                else
-                    Toasty.info(this, "Check input - fields can not be empty", Toast.LENGTH_SHORT).show();
+                authenticationProcess();
                 break;
             case R.id.login_registration_btn:
                 Intent intent = new Intent(getApplicationContext(), RegistrationActivity.class);
@@ -83,7 +71,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void authenticationProcess(){
 
+        String userName = userNameInput.getText().toString();
+        String password = passwordInput.getText().toString();
+
+        if (userName!=null & !"".equals(userName) & password!=null & !"".equals(password)){
+            User user = db.getUserByNameAndPassword(userName, password);
+
+            if (user!=null){
+                Toasty.success(this, "WELCOME "+user.getFullName(), Toast.LENGTH_SHORT).show();
+                Intent redirectToMain = new Intent(getApplicationContext(), MainActivity.class);
+                ApplicationInfo.USER_IN_SYSTEM_ID =user.getId();
+                Log.d(TAG, " ---- user in system : "+ApplicationInfo.USER_IN_SYSTEM_ID);
+                redirectToMain.putExtra(ApplicationInfo.USER, ApplicationInfo.USER_IN_SYSTEM_ID);
+                startActivity(redirectToMain);
+
+            }
+            else{
+                Toasty.error(this, "FAILURE - check input data", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else
+            Toasty.info(this, "Check input - fields can not be empty", Toast.LENGTH_SHORT).show();
+    }
 
 
 
