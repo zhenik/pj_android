@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Pj</string>
+    <string name="login">Login</string>
+    <string name="registration">Registration</string>
+    <string name="password">password</string>
+    <string name="username">username</string>
+    <string name="logo">logo</string>
+</resources>

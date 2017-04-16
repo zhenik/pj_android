@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--android:background="16dp"-->
+    <!--android:paddingBottom="16dp"-->
+    <!--android:paddingLeft="16dp"-->
+    <!--android:paddingRight="16dp"-->
+    <!--android:paddingTop="16dp">-->
+
+
+    <LinearLayout
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/login_userName_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:hint="@string/username"
+            android:inputType="text"/>
+
+        <EditText
+            android:id="@+id/login_password_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:hint="@string/password"
+            android:inputType="textPassword"/>
+
+        <Button
+            android:id="@+id/login_login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/login"
+            />
+
+        <Button
+            android:id="@+id/login_registration_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/registration"
+            />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/login_logo_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/login_form"
+        android:layout_centerHorizontal="true"
+        android:alpha=".25"
+        android:contentDescription="@string/logo"/>
+
+</RelativeLayout>
