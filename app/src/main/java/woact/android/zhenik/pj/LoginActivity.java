@@ -12,6 +12,7 @@ import android.widget.Toast;
 import es.dmoral.toasty.Toasty;
 import woact.android.zhenik.pj.handler.DatabaseUserHandler;
 import woact.android.zhenik.pj.model.User;
+import woact.android.zhenik.pj.utils.ApplicationInfo;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG="DB/LoginActivity: ";
@@ -76,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String userName = userNameInput.getText().toString();
         String password = passwordInput.getText().toString();
 
-        if (userName!=null & !"".equals(userName) & password!=null & !"".equals(password)){
+        if (!"".equals(userName) && !"".equals(password)){
             User user = db.getUserByNameAndPassword(userName, password);
 
             if (user!=null){
