@@ -1,17 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:weightSum="1">
 
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="FRAGMENT"/>
+        android:layout_height="match_parent"
+        android:layout_weight="0.07"
+        tools:ignore="UselessParent">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@android:color/holo_blue_bright">
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/circularImageView"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="70dp"
+                android:src="@drawable/ic_warning_white_48dp"
+                app:civ_border_color="#EEEEEE"
+                app:civ_border_width="6dp"
+                app:civ_shadow="true"
+                app:civ_shadow_color="@android:color/holo_blue_light"
+                app:civ_shadow_radius="10"/>
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/text_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/circularImageView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="Oda Humlung"
+                android:textSize="24sp"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="bottom"
+            android:layout_margin="10dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_horizontal"
+                    android:tint="@color/profile_icon"
+                    app:srcCompat="@drawable/dollar"/>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="15000"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/text_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="MONEY"/>
+                <!--android:textAlignment="center"-->
+                <!--android:textStyle="bold"-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_horizontal"
+                    android:tint="@color/profile_icon"
+                    app:srcCompat="@drawable/group"/>
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/textView5"
+                    style="@style/text_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="GROUPS"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center_horizontal"
+                    android:tint="@color/profile_icon"
+                    app:srcCompat="@drawable/star"/>
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="355"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/textView7"
+                    style="@style/text_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="SCORE"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+
 </LinearLayout>
