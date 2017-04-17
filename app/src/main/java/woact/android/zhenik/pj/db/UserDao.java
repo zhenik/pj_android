@@ -76,9 +76,93 @@ public class UserDao {
         return user;
     }
 
+    public User getUserById(long id){
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        Cursor cursor = db.query(
+                TABLE_USERS,
+                new String[] {KEY_ID, KEY_USER_NAME, KEY_PASSWORD, KEY_FULL_NAME, KEY_MONEY, KEY_SCORE},
+                KEY_ID + "=?",
+                new String[] {String.valueOf(id)},
+                null, null, null, null);
+        if (cursor != null & cursor.getCount()>0)
+            cursor.moveToFirst();
+        else
+            return null;
+
+        User user = new User(Long.parseLong(cursor.getString(0)),
+                             cursor.getString(1),
+                             cursor.getString(2),
+                             cursor.getString(3),
+                             cursor.getDouble(4),
+                             cursor.getLong(5));
+        return user;
+    }
+
+
+    public long updateScore(long userId, long newScore) {
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_SCORE, newScore);
+        // updating row
+        return db.update(TABLE_USERS, values, KEY_ID + " = ?",
+                         new String[] { String.valueOf(userId) });
+    }
+
+    public Long getScore(long userId){
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        Cursor cursor = db.query(
+                TABLE_USERS,
+                new String[] {KEY_SCORE},
+                KEY_ID + "=?",
+                new String[] {String.valueOf(userId)},
+                null, null, null, null);
+
+        if (cursor != null && cursor.getCount()>0)
+            cursor.moveToFirst();
+        else
+            return null;
+//             or maybe
+//        throw new NullPointerException("User does not exist");
+
+//        Log.d(TAG, "GET_SCORE cursor count: "+cursor.getColumnName(0));
+//        Log.d(TAG, "GET_SCORE cursor count: "+cursor.getLong(0));
+        Long score =  cursor.getLong(0);
+        return score;
+    }
+
+    public long updateMoney(long userId, double newMoney) {
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_MONEY, newMoney);
+        // updating row
+        return db.update(TABLE_USERS, values, KEY_ID + " = ?",
+                         new String[] { String.valueOf(userId) });
+    }
+
+    //TODO: test it
+    public Double getMoney(long userId){
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        Cursor cursor = db.query(
+                TABLE_USERS,
+                new String[] {KEY_MONEY},
+                KEY_ID + "=?",
+                new String[] {String.valueOf(userId)},
+                null, null, null, null);
+
+        if (cursor != null && cursor.getCount()>0)
+            cursor.moveToFirst();
+        else
+            return null;
+//             or maybe
+//        throw new NullPointerException("User does not exist");
+
+        Double money =  cursor.getDouble(0);
+        return money;
+    }
+
+
 
     public List<User> getAllUsers() {
-
         List<User> userList = new ArrayList<User>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_USERS;
@@ -121,15 +205,15 @@ public class UserDao {
         return encryptedString;
     }
 
-
+    /**
+     * Only for development mode
+     * TODO: Move to tests
+     * */
     public void clearUsersTable() {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         db.delete(TABLE_USERS, null, null);
         DatabaseManager.getInstance().closeDatabase();
         Log.d(TAG, "---clean db---");
     }
-
-
-
 
 }
