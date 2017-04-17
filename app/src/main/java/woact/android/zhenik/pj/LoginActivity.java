@@ -35,9 +35,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         initButtons();
 
 
-//done: new synchronize style plz
-        mDatabaseHelper = DatabaseHelper.getHelper(getApplicationContext());
-        DatabaseManager.initializeInstance(mDatabaseHelper);
+        /**
+         * super db init
+         * */
+        DatabaseManager.initializeInstance(DatabaseHelper.getHelper(getApplicationContext()));
+
         userDao = new UserDao();
 
         // TODO: dev mode - remove!!! DON'T CALL IT
