@@ -2,25 +2,33 @@ package woact.android.zhenik.pj.model;
 
 import java.io.Serializable;
 
-/**
- * Created by NIK on 31/03/2017.
- */
 
-public class User implements Serializable {
+public class User implements Serializable{
 
     private long id;
     private String userName;
     private String password;
     private String fullName;
-
+    private double money;
+    private long score;
 
     public User() {}
 
-    public User(long id, String userName, String password, String fullName) {
+    public User(long id, String userName, String password, String fullName, double money, long score) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.fullName = fullName;
+        this.money = money;
+        this.score = score;
+    }
+
+    public User(String userName, String password, String fullName, double money, long score) {
+        this.userName = userName;
+        this.password = password;
+        this.fullName = fullName;
+        this.money = money;
+        this.score = score;
     }
 
     public User(String userName, String password, String fullName) {
@@ -61,6 +69,22 @@ public class User implements Serializable {
         this.fullName = fullName;
     }
 
+    public long getScore() {
+        return score;
+    }
+
+    public void setScore(long score) {
+        this.score = score;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -68,6 +92,9 @@ public class User implements Serializable {
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", fullName='" + fullName + '\'' +
+                ", money=" + money +
+                ", score=" + score +
                 '}';
     }
 }
+
