@@ -9,7 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import es.dmoral.toasty.Toasty;
-import woact.android.zhenik.pj.handler.DatabaseUserHandler;
+import woact.android.zhenik.pj.db.DatabaseHelper;
+import woact.android.zhenik.pj.db.UserDao;
 import woact.android.zhenik.pj.model.User;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -18,13 +19,14 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText password;
     private EditText fullName;
     private Button cBtn;
-    private DatabaseUserHandler db;
+    private DatabaseHelper db;
+    private UserDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration_activity);
-        db = new DatabaseUserHandler(getApplicationContext());
+        userDao = new UserDao();
         initInputs();
         initButton();
     }
@@ -44,12 +46,15 @@ public class RegistrationActivity extends AppCompatActivity {
                     String userN = userName.getText().toString().trim();
                     String passN = password.getText().toString().trim();
                     String fullN = fullName.getText().toString().trim();
-                    db.addUser(new User(userN, passN, fullN));
+                    long id = userDao.registerUser(new User(userN, passN, fullN));
 
-                    Toasty.success(getApplicationContext(), "user was created", Toast.LENGTH_SHORT).show();
-
-                    Intent redirect = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(redirect);
+                    if (id == -1)
+                        Toasty.error(getApplicationContext(), "user with name "+userN+ " already exists", Toast.LENGTH_SHORT).show();
+                    else{
+                        Toasty.success(getApplicationContext(), "user was created", Toast.LENGTH_SHORT).show();
+                        Intent redirect = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(redirect);
+                    }
                 }
             }
         });
