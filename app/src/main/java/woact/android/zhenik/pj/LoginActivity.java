@@ -10,7 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import es.dmoral.toasty.Toasty;
-import woact.android.zhenik.pj.handler.DatabaseUserHandler;
+import woact.android.zhenik.pj.db.DatabaseHelper;
+import woact.android.zhenik.pj.db.DatabaseManager;
+import woact.android.zhenik.pj.db.UserDao;
 import woact.android.zhenik.pj.model.User;
 import woact.android.zhenik.pj.utils.ApplicationInfo;
 
@@ -22,8 +24,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText userNameInput;
     private EditText passwordInput;
+    private DatabaseHelper mDatabaseHelper;
+    private UserDao userDao;
 
-    private DatabaseUserHandler db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,19 +35,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         initButtons();
 
 
-
-        db = new DatabaseUserHandler(getApplicationContext());
-
-        /**
-         * DEV MODE
-         * */
+//done: new synchronize style plz
+        mDatabaseHelper = DatabaseHelper.getHelper(getApplicationContext());
+        DatabaseManager.initializeInstance(mDatabaseHelper);
+        userDao = new UserDao();
+        // TODO: dev mode - remove!!!
         devMode();
     }
-
     private void devMode(){
-//                db.clearDb();
-        // fake user
-        db.addUser(new User("nik", "a", "Nikita Zhevnitskiy"));
+
+        long id1 = userDao.registerUser(new User("chel", "pass", "fullname", 2.2, 245));
+        User userFromDb = userDao.getUserByNameAndPassword("chel", "pass");
+        Log.d(TAG, userFromDb.toString()+"");
+        userDao.clearUsersTable();
     }
 
     private void initInputTextViews(){
@@ -72,13 +75,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    // TODO: change authentication process
     private void authenticationProcess(){
 
         String userName = userNameInput.getText().toString();
         String password = passwordInput.getText().toString();
 
         if (!"".equals(userName) && !"".equals(password)){
-            User user = db.getUserByNameAndPassword(userName, password);
+            User user = userDao.getUserByNameAndPassword(userName, password);
 
             if (user!=null){
                 Toasty.success(this, "WELCOME "+user.getFullName(), Toast.LENGTH_SHORT).show();
@@ -95,30 +99,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         else
             Toasty.info(this, "Check input - fields can not be empty", Toast.LENGTH_SHORT).show();
-    }
-
-
-
-
-
-
-
-    /**
-     * CRUD manual tests Operations
-     * */
-    private void checkCRUD(){
-
-//        long userId1 = db.addUser(new User("userName", "password", "ololoNAME"));
-//        long userId3 = db.addUser(new User("userName", "password", "ololoNAME"));
-//
-//        User user = db.getUser(userId1);
-//        db.deleteUser(user);
-//        long userId2 = db.addUser(new User("nik39", "cool-password", "Nikita Zhevnitskiy"));
-//        User user1 = db.getUserByNameAndPassword("nik39", "cool-password");
-//        Log.d(TAG, " found by userName & password:" + user1.toString());
-//
-//
-//        db.getAllUsers();
-//        db.clearDb();
     }
 }
