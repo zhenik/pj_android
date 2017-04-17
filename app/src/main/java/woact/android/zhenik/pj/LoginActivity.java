@@ -39,12 +39,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mDatabaseHelper = DatabaseHelper.getHelper(getApplicationContext());
         DatabaseManager.initializeInstance(mDatabaseHelper);
         userDao = new UserDao();
-        // TODO: dev mode - remove!!!
-        devMode();
+
+        // TODO: dev mode - remove!!! DON'T CALL IT
+//        devMode();
     }
     private void devMode(){
 
-        long id1 = userDao.registerUser(new User("chel", "pass", "fullname", 2.2, 245));
+        long id1 = userDao.registerUser(new User("a", "a", "fullname", 2.2, 245));
         User userFromDb = userDao.getUserByNameAndPassword("chel", "pass");
         Log.d(TAG, userFromDb.toString()+"");
         userDao.clearUsersTable();
@@ -75,7 +76,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    // TODO: change authentication process
     private void authenticationProcess(){
 
         String userName = userNameInput.getText().toString();
@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Intent redirectToMain = new Intent(getApplicationContext(), MainActivity.class);
                 ApplicationInfo.USER_IN_SYSTEM_ID =user.getId();
                 Log.d(TAG, " ---- user in system : "+ApplicationInfo.USER_IN_SYSTEM_ID);
+                /** set user in system id */
                 redirectToMain.putExtra(ApplicationInfo.USER, ApplicationInfo.USER_IN_SYSTEM_ID);
                 startActivity(redirectToMain);
 
