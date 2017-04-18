@@ -8,14 +8,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import woact.android.zhenik.pj.fragment.GroupFragment;
-import woact.android.zhenik.pj.fragment.ProfileFragment;
-import woact.android.zhenik.pj.fragment.ShopFragment;
+import woact.android.zhenik.pj.fragment.group.GroupFragment;
+import woact.android.zhenik.pj.fragment.profile.ProfileFragment;
+import woact.android.zhenik.pj.fragment.shop.ShopFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private FrameLayout mContent;
     private FragmentManager fm;
+
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -69,4 +71,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 }
