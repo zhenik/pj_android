@@ -52,12 +52,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_AVAILABLE_MONEY  + " REAL DEFAULT 0)";
 
     // user_group table create statement
+//    private static final String CREATE_TABLE_USER_GROUP = "CREATE TABLE "
+//            + TABLE_USER_GROUP + "("
+//            + KEY_USER_ID + " INTEGER PRIMARY KEY,"
+//            + KEY_GROUP_ID + " INTEGER PRIMARY KEY,"
+//            + KEY_INVESTMENT + " REAL,"
+//            + KEY_LOAN + " REAL)";
+
+    /**
+     * CREATE TABLE suppliers (
+     supplier_id integer PRIMARY KEY,
+     supplier_name text NOT NULL,
+     group_id integer NOT NULL,
+     FOREIGN KEY (group_id) REFERENCES supplier_groups(group_id)
+     );
+     * */
     private static final String CREATE_TABLE_USER_GROUP = "CREATE TABLE "
             + TABLE_USER_GROUP + "("
-            + KEY_USER_ID + " INTEGER PRIMARY KEY,"
-            + KEY_GROUP_ID + " INTEGER PRIMARY KEY,"
-            + KEY_INVESTMENT + " REAL,"
-            + KEY_LOAN + " REAL)";
+            + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_USER_ID + " INTEGER NOT NULL,"
+            + KEY_GROUP_ID + " INTEGER NOT NULL,"
+            + KEY_INVESTMENT + " REAL DEFAULT 0,"
+            + KEY_LOAN + " REAL DEFAULT 0,"
+            + " FOREIGN KEY (" +KEY_USER_ID+") REFERENCES "+TABLE_USERS+"("+KEY_ID+"),"
+            + " FOREIGN KEY (" +KEY_GROUP_ID+") REFERENCES "+TABLE_GROUPS+"("+KEY_ID+")"+")";
 
     /**
      * Synchronized singleton
@@ -75,15 +93,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USERS);
         db.execSQL(CREATE_TABLE_GROUPS);
-//        db.execSQL(CREATE_TABLE_USER_GROUP);
+        db.execSQL(CREATE_TABLE_USER_GROUP);
+        Log.d(TAG, CREATE_TABLE_USER_GROUP);
         Log.d(TAG, "db was created");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER_GROUP);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
-//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GROUPS);
-//        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER_GROUP);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GROUPS);
         Log.d(TAG, "drop tables, change vers from "+oldVersion+" to new "+newVersion);
         onCreate(db);
     }
@@ -101,7 +120,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //    }
 
 
-
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            // Enable foreign key constraints
+            db.execSQL("PRAGMA foreign_keys=ON;");
+        }
+    }
 
 
 
