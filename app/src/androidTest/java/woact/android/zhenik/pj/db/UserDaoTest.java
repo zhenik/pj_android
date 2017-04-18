@@ -41,13 +41,6 @@ public class UserDaoTest {
         userDao.clearUsersTable();
     }
 
-
-    @Test
-    public void testUserInsert() {
-        long id1 = userDao.registerUser(new User("norman", "pass", "fullname", 2.2, 245));
-        assertEquals(1l, id1);
-    }
-
     @Test
     public void checkDatabaseColumns(){
         // Arrange
@@ -65,6 +58,14 @@ public class UserDaoTest {
         assertEquals("money", cursor.getColumnName(4));
         assertEquals("score", cursor.getColumnName(5));
     }
+
+    @Test
+    public void testUserInsert() {
+        long id1 = userDao.registerUser(new User("norman", "pass", "fullname", 2.2, 245));
+        assertEquals(1l, id1);
+    }
+
+
 
     @Test
     public void testTryRegisterSameUser(){
