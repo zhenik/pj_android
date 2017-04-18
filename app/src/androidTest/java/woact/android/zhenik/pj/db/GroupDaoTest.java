@@ -16,6 +16,7 @@ import woact.android.zhenik.pj.model.Group;
 
 import static org.junit.Assert.*;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_AVAILABLE_MONEY;
+import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_GROUP_NAME;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_ID;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_TOTAL_MONEY;
 import static woact.android.zhenik.pj.db.DatabaseHelper.TABLE_GROUPS;
@@ -51,10 +52,11 @@ public class GroupDaoTest {
         // log
         Log.d(TAG, "TABLE NAME: "+ Arrays.asList(cursor.getColumnNames()).toString());
         // Assert
-        assertEquals(3, cursor.getColumnCount());
+        assertEquals(4, cursor.getColumnCount());
         assertEquals(KEY_ID, cursor.getColumnName(0));
         assertEquals(KEY_TOTAL_MONEY, cursor.getColumnName(1));
         assertEquals(KEY_AVAILABLE_MONEY, cursor.getColumnName(2));
+        assertEquals(KEY_GROUP_NAME, cursor.getColumnName(3));
 
     }
 
@@ -198,5 +200,33 @@ public class GroupDaoTest {
         assertEquals(rowsAffected, 0);
     }
 
+    @Test
+    public void checkSetGroupName_GroupExist(){
+        // Arrange
+        long id = groupDao.createGroup();
+
+        // Act
+        long rowsAffected = groupDao.setGroupName(id, "Friends");
+        Log.d(TAG, " -- rows affected : "+rowsAffected);
+        assertEquals(1, rowsAffected);
+        Group group = groupDao.getGroup(id);
+
+        // Assert
+        assertEquals("Friends", group.getGroupName());
+
+    }
+
+    @Test
+    public void checkSetGroupName_GroupNotExist(){
+        // Arrange
+        long idNotExist = 1231234l;
+
+        // Act
+        long rowsAffected = groupDao.setGroupName(idNotExist, "Friends");
+
+        // Assert
+        assertEquals(0, rowsAffected);
+
+    }
 
 }

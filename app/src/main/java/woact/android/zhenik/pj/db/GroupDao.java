@@ -9,6 +9,7 @@ import woact.android.zhenik.pj.model.Group;
 import woact.android.zhenik.pj.model.User;
 
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_AVAILABLE_MONEY;
+import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_GROUP_NAME;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_ID;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_MONEY;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_SCORE;
@@ -50,7 +51,7 @@ public class GroupDao {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         Cursor cursor = db.query(
                 TABLE_GROUPS,
-                new String[] {KEY_ID, KEY_TOTAL_MONEY, KEY_AVAILABLE_MONEY},
+                new String[] {KEY_ID, KEY_TOTAL_MONEY, KEY_AVAILABLE_MONEY, KEY_GROUP_NAME},
                 KEY_ID + "=?",
                 new String[] {String.valueOf(groupId)},
                 null, null, null, null);
@@ -59,7 +60,7 @@ public class GroupDao {
             cursor.moveToFirst();
         else
             return null;
-        Group group = new Group(cursor.getLong(0), cursor.getDouble(1), cursor.getDouble(2));
+        Group group = new Group(cursor.getLong(0), cursor.getDouble(1), cursor.getDouble(2), cursor.getString(3));
         return group;
     }
 
@@ -106,6 +107,7 @@ public class GroupDao {
         else
             return null;
         Double availableMoney = cursor.getDouble(0);
+        DatabaseManager.getInstance().closeDatabase();
         return availableMoney;
     }
 
@@ -114,7 +116,42 @@ public class GroupDao {
         ContentValues values = new ContentValues();
         values.put(KEY_AVAILABLE_MONEY, newMoney);
         // updating row
-        return db.update(TABLE_GROUPS, values, KEY_ID + " = ?",
+        long rowAffected= db.update(TABLE_GROUPS, values, KEY_ID + " = ?",
                          new String[] { String.valueOf(groupId) });
+        DatabaseManager.getInstance().closeDatabase();
+        return rowAffected;
+
     }
+
+    // TODO: test it
+    public long setGroupName(long groupId, String groupName){
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_GROUP_NAME, groupName);
+        // updating row
+        long rowsAffected = db.update(TABLE_GROUPS, values, KEY_ID + " = ?",
+                         new String[] { String.valueOf(groupId) });
+        DatabaseManager.getInstance().closeDatabase();
+        return rowsAffected;
+    }
+
+//    public String getGroupName(long groupId){
+//        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+//        Cursor cursor = db.query(
+//                TABLE_GROUPS,
+//                new String[] {KEY_AVAILABLE_MONEY},
+//                KEY_ID + "=?",
+//                new String[] {String.valueOf(groupId)},
+//                null, null, null, null);
+//
+//        if (cursor != null && cursor.getCount()>0)
+//            cursor.moveToFirst();
+//        else
+//            return null;
+//        Double availableMoney = cursor.getDouble(0);
+//        DatabaseManager.getInstance().closeDatabase();
+//        return availableMoney;
+//    }
+
+
 }
