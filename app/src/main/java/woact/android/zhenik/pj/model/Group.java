@@ -8,6 +8,7 @@ public class Group {
     private long id;
     private double totalMoney;
     private double availableMoney;
+    private String groupName;
 
     public Group() {}
 
@@ -20,6 +21,13 @@ public class Group {
         this.id = id;
         this.totalMoney = totalMoney;
         this.availableMoney = availableMoney;
+    }
+
+    public Group(long id, double totalMoney, double availableMoney, String groupName) {
+        this.id = id;
+        this.totalMoney = totalMoney;
+        this.availableMoney = availableMoney;
+        this.groupName = groupName;
     }
 
     public long getId() {
@@ -45,4 +53,8 @@ public class Group {
     public void setAvailableMoney(double availableMoney) {
         this.availableMoney = availableMoney;
     }
+
+    public String getGroupName() {return groupName;}
+
+    public void setGroupName(String groupName) {this.groupName = groupName;}
 }
