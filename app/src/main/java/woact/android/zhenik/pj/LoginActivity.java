@@ -8,11 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import es.dmoral.toasty.Toasty;
 import woact.android.zhenik.pj.db.DatabaseHelper;
 import woact.android.zhenik.pj.db.DatabaseManager;
+import woact.android.zhenik.pj.db.DummyDataFactory;
+import woact.android.zhenik.pj.db.GroupDao;
 import woact.android.zhenik.pj.db.UserDao;
+import woact.android.zhenik.pj.db.UserGroupDao;
+import woact.android.zhenik.pj.model.Group;
 import woact.android.zhenik.pj.model.User;
 import woact.android.zhenik.pj.utils.ApplicationInfo;
 
@@ -24,7 +27,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText userNameInput;
     private EditText passwordInput;
-    private DatabaseHelper mDatabaseHelper;
     private UserDao userDao;
 
     @Override
@@ -34,23 +36,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         initInputTextViews();
         initButtons();
 
-
-        /**
-         * super db init
-         * */
         DatabaseManager.initializeInstance(DatabaseHelper.getHelper(getApplicationContext()));
-
         userDao = new UserDao();
 
-        // TODO: dev mode - remove!!! DON'T CALL IT
-//        devMode();
+        /**
+         * dev mode ONLY
+         * TODO: Delete application from mobile-devise before jUnit tests, because dummydata conflicts.
+         * */
+        devModeDummyData();
     }
-    private void devMode(){
 
-        long id1 = userDao.registerUser(new User("a", "a", "fullname", 2.2, 245));
-        User userFromDb = userDao.getUserByNameAndPassword("chel", "pass");
-        Log.d(TAG, userFromDb.toString()+"");
-        userDao.clearUsersTable();
+    private void devModeDummyData(){
+        DummyDataFactory ddF = new DummyDataFactory();
+        ddF.addUserDevMode(new User("a", "a", "Changiz Hosseini", 50000, 150));
+        ddF.addUserDevMode(new User("b", "b", "Oda Humlung", 65000, 250));
+        ddF.addGroupDevMode(new Group(1,30000,20000));
+        ddF.addGroupDevMode(new Group(2,20000,20000));
+        ddF.addUserGroupDevMode(1,1,1,20000,10000);
+        ddF.addUserGroupDevMode(2,2,1,10000,0);
+        ddF.addUserGroupDevMode(3,2,2,20000,0);
     }
 
     private void initInputTextViews(){
@@ -82,6 +86,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         String userName = userNameInput.getText().toString();
         String password = passwordInput.getText().toString();
+        userNameInput.setText("");
+        passwordInput.setText("");
 
         if (!"".equals(userName) && !"".equals(password)){
             User user = userDao.getUserByNameAndPassword(userName, password);
