@@ -13,6 +13,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import woact.android.zhenik.pj.model.Group;
 import woact.android.zhenik.pj.model.User;
 
 import static org.junit.Assert.*;
@@ -169,6 +170,24 @@ public class UserGroupDaoTest {
 
         // Assert
         assertEquals(2, usersInGroup.size());
+    }
+
+
+
+    @Test
+    public void checkGetGroupsOfUser_1User2Groups(){
+        // Arrange
+        long newGroupId = groupDao.createGroup();
+        assertTrue(newGroupId!=-1);
+        userGroupDao.registerUserInGroup(userId, groupId);
+        userGroupDao.registerUserInGroup(userId, newGroupId);
+
+        // Act
+        List<Group> groupList = userGroupDao.getGroupsOfUser(userId);
+
+        // Assert
+        assertEquals(2, groupList.size());
+
     }
 
 }
