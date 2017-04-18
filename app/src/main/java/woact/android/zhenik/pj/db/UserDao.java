@@ -37,20 +37,7 @@ public class UserDao {
         return userId;
     }
 
-    public long addUserDevMode(User user) {
-        long userId;
-        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
-        ContentValues values = new ContentValues();
-        values.put(KEY_USER_NAME, user.getUserName());
-        values.put(KEY_PASSWORD, getHashWithSalt(user.getPassword()));
-        values.put(KEY_FULL_NAME, user.getFullName());
-        values.put(DatabaseHelper.KEY_MONEY, user.getMoney());
-        values.put(DatabaseHelper.KEY_SCORE, user.getScore());
-        // Inserting Row
-        userId = db.insert(TABLE_USERS, null, values);
-        DatabaseManager.getInstance().closeDatabase();
-        return userId;
-    }
+
 
     public User getUserByNameAndPassword(String name, String password){
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
