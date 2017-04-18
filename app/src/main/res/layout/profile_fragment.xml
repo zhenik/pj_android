@@ -16,7 +16,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@android:color/holo_blue_bright">
+            android:background="@android:color/holo_blue_dark">
 
         </FrameLayout>
 
@@ -26,7 +26,7 @@
             android:layout_gravity="center_horizontal">
 
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/circularImageView"
+                android:id="@+id/profile_img_circularImageView"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_alignParentStart="true"
@@ -36,15 +36,15 @@
                 app:civ_border_color="#EEEEEE"
                 app:civ_border_width="6dp"
                 app:civ_shadow="true"
-                app:civ_shadow_color="@android:color/holo_blue_light"
+
                 app:civ_shadow_radius="10"/>
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/profile_fullname_txt"
                 style="@style/text_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/circularImageView"
+                android:layout_below="@+id/profile_img_circularImageView"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:text="Oda Humlung"
@@ -72,11 +72,11 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal"
-                    android:tint="@color/profile_icon"
+                    android:tint="@android:color/holo_blue_dark"
                     app:srcCompat="@drawable/dollar"/>
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/profile_money_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="15000"
@@ -105,11 +105,11 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal"
-                    android:tint="@color/profile_icon"
+                    android:tint="@android:color/holo_blue_dark"
                     app:srcCompat="@drawable/group"/>
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/profile_groups_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="3"
@@ -136,11 +136,11 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal"
-                    android:tint="@color/profile_icon"
+                    android:tint="@android:color/holo_blue_dark"
                     app:srcCompat="@drawable/star"/>
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/profile_score_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="355"
