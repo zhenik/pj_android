@@ -11,11 +11,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    private static final String DATABASE_NAME = "bank";
+    protected static final String DATABASE_NAME = "bank";
     // Table Names
     protected static final String TABLE_USERS = "users";
-    private static final String TABLE_GROUPS = "groups";
-    private static final String TABLE_USER_GROUP = "user_group";
+    protected static final String TABLE_GROUPS = "groups";
+    protected static final String TABLE_USER_GROUP = "user_group";
 
     // Common column names
     protected static final String KEY_ID = "id";
@@ -26,13 +26,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     protected static final String KEY_MONEY = "money";
     protected static final String KEY_SCORE = "score";
     // GROUPS Table - column names
-    private static final String KEY_TOTAL_MONEY = "totalMoney";
-    private static final String KEY_AVAILABLE_MONEY = "availableMoney";
+    protected static final String KEY_TOTAL_MONEY = "totalMoney";
+    protected static final String KEY_AVAILABLE_MONEY = "availableMoney";
     // USER_GROUP Table
-    private static final String KEY_USER_ID = "userId";
-    private static final String KEY_GROUP_ID = "groupId";
-    private static final String KEY_INVESTMENT = "investment";
-    private static final String KEY_LOAN = "loan";
+    protected static final String KEY_USER_ID = "userId";
+    protected static final String KEY_GROUP_ID = "groupId";
+    protected static final String KEY_INVESTMENT = "investment";
+    protected static final String KEY_LOAN = "loan";
 
     // users table create statement
     private static final String CREATE_TABLE_USERS = "CREATE TABLE "
@@ -74,7 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USERS);
-//        db.execSQL(CREATE_TABLE_GROUPS);
+        db.execSQL(CREATE_TABLE_GROUPS);
 //        db.execSQL(CREATE_TABLE_USER_GROUP);
         Log.d(TAG, "db was created");
     }
