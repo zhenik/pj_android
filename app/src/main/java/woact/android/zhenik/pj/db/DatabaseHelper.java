@@ -28,6 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // GROUPS Table - column names
     protected static final String KEY_TOTAL_MONEY = "totalMoney";
     protected static final String KEY_AVAILABLE_MONEY = "availableMoney";
+    protected static final String KEY_GROUP_NAME = "groupName";
     // USER_GROUP Table
     protected static final String KEY_USER_ID = "userId";
     protected static final String KEY_GROUP_ID = "groupId";
@@ -49,7 +50,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + TABLE_GROUPS + "("
             + KEY_ID + " INTEGER PRIMARY KEY,"
             + KEY_TOTAL_MONEY + " REAL DEFAULT 0,"
-            + KEY_AVAILABLE_MONEY  + " REAL DEFAULT 0)";
+            + KEY_AVAILABLE_MONEY  + " REAL DEFAULT 0,"
+            + KEY_GROUP_NAME + " TEXT DEFAULT 'NONAME')";
 
     // user_group table create statement
 //    private static final String CREATE_TABLE_USER_GROUP = "CREATE TABLE "
