@@ -16,6 +16,12 @@ public class Group {
         this.availableMoney = availableMoney;
     }
 
+    public Group(long id, double totalMoney, double availableMoney) {
+        this.id = id;
+        this.totalMoney = totalMoney;
+        this.availableMoney = availableMoney;
+    }
+
     public long getId() {
         return id;
     }
