@@ -57,4 +57,14 @@ public class Group {
     public String getGroupName() {return groupName;}
 
     public void setGroupName(String groupName) {this.groupName = groupName;}
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", totalMoney=" + totalMoney +
+                ", availableMoney=" + availableMoney +
+                ", groupName='" + groupName + '\'' +
+                '}';
+    }
 }
