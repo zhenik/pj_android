@@ -5,6 +5,35 @@
     <item
         android:id="@+id/action_back"
         android:icon="@mipmap/ic_arrow_back_white_24dp"
-        android:title="Add group"
+        android:title="Back"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_user_actions"
+        android:icon="@mipmap/ic_menu_white_24dp"
+        android:title="Actions"
+        app:showAsAction="ifRoom">
+
+        <item
+            android:id="@+id/action_invest"
+            android:title="INVEST"
+            />
+        <item
+            android:id="@+id/action_loan"
+            android:title="LOAN"
+            />
+        <item
+            android:id="@+id/action_pay_back"
+            android:title="PAY BACK"
+            />
+        <item
+            android:id="@+id/action_withdraw"
+            android:title="WITHDRAW"
+            />
+        <item
+            android:id="@+id/action_invite"
+            android:title="INVITE"
+            />
+
+
+    </item>
 </menu>
