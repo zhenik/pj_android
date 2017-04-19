@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import woact.android.zhenik.pj.MainActivity;
 import woact.android.zhenik.pj.R;
 import woact.android.zhenik.pj.db.UserDao;
 import woact.android.zhenik.pj.db.UserGroupDao;
@@ -73,7 +74,9 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onResume() {
-        super.onResume();
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Profile");
         updateInfo();
+        super.onResume();
+
     }
 }

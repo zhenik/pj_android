@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import woact.android.zhenik.pj.MainActivity;
 import woact.android.zhenik.pj.R;
 import woact.android.zhenik.pj.model.User;
 
@@ -34,6 +35,15 @@ public class ShopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        btn = (Button) getActivity().findViewById(R.id.button2);
         Log.i(TAG, "onCreateView");
-        return this.view=inflater.inflate(R.layout.shop_fragment, null);
+        this.view=inflater.inflate(R.layout.shop_fragment, null);
+        setHasOptionsMenu(true);
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Shop");
+        super.onResume();
     }
 }

@@ -46,6 +46,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         devModeDummyData();
     }
 
+    @Override
+    protected void onResume() {
+        getSupportActionBar().setTitle("DNB BONUS");
+        super.onResume();
+    }
+
     private void devModeDummyData(){
         DummyDataFactory ddF = new DummyDataFactory();
         ddF.addUserDevMode(new User("a", "a", "Changiz Hosseini", 50000, 150));
@@ -119,4 +125,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         else
             Toasty.info(this, "Check input - fields can not be empty", Toast.LENGTH_SHORT).show();
     }
+
+
 }

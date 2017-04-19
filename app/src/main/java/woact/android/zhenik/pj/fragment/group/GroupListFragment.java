@@ -1,11 +1,11 @@
 package woact.android.zhenik.pj.fragment.group;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 //import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,15 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
+import woact.android.zhenik.pj.MainActivity;
 import woact.android.zhenik.pj.R;
 import woact.android.zhenik.pj.db.UserGroupDao;
 import woact.android.zhenik.pj.model.Group;
@@ -33,17 +34,20 @@ import woact.android.zhenik.pj.utils.ApplicationInfo;
 import woact.android.zhenik.pj.utils.GroupCustomAdapter;
 
 
-public class GroupFragment extends Fragment {
-    public static final String TAG = "###GroupFragment:> ";
+public class GroupListFragment extends Fragment {
+    public static final String TAG = "###GroupListFragment:> ";
 
     private View view;
     private UserGroupDao userGroupDao;
+    private FragmentManager fm;
+
     private GroupCustomAdapter groupCustomAdapter;
     private ListView groupsListView;
     private String m_Text;
     private Long groupId;
 
-    public GroupFragment() {
+
+    public GroupListFragment() {
         Log.i(TAG, "constructor");
     }
 
@@ -52,9 +56,10 @@ public class GroupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
         setHasOptionsMenu(true);
-        this.view=inflater.inflate(R.layout.group_fragment, null);
+        this.view=inflater.inflate(R.layout.group_list_fragment, null);
         userGroupDao=new UserGroupDao();
         groupsListView = (ListView)view.findViewById(R.id.groups_group_list);
+//        getSupportActionBar().setTitle("your title");
         return view;
     }
 
@@ -108,8 +113,9 @@ public class GroupFragment extends Fragment {
 
     @Override
     public void onResume() {
-        super.onResume();
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Groups");
         initAdapters();
+        super.onResume();
     }
     private void initAdapters(){
         List<Group> dummyGroupsName = userGroupDao.getGroupsOfUser(ApplicationInfo.USER_IN_SYSTEM_ID);
@@ -123,26 +129,18 @@ public class GroupFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Group group = ((Group)groupsListView.getItemAtPosition(position));
+                ApplicationInfo.GROUP_CLICKED=null;
+                ApplicationInfo.GROUP_CLICKED=group.getId();
                 Toast.makeText(
                         getContext(),
-                        group.getGroupName(),
+                        group.getGroupName() + ":"+ApplicationInfo.GROUP_CLICKED,
                         Toast.LENGTH_SHORT
                 ).show();
-//                FragmentTransaction ft = fm.beginTransaction();
-//                invisibleAdapter();
-//                String potName = pots.getItemAtPosition(position).toString();
-//                PotFragment potFragment = PotFragment.newInstance(potName);
-//                if (fm.findFragmentByTag(PotFragment.TAG)==null)
-//                    ft.replace(R.viewListId.group_fragment, new PotFragment(), PotFragment.TAG);
-//                ft.replace(R.id.group_container, potFragment, PotFragment.TAG);
-//                Log.i(TAG, potName);
-//                ft.addToBackStack(PotFragment.TAG);
-//                ft.commit();
-//                Toast.makeText(
-//                        getContext(),
-//                        pots.getItemAtPosition(position).toString(),
-//                        Toast.LENGTH_SHORT
-//                ).show();
+                fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.content, GroupItemFragment.newInstance(group), GroupItemFragment.TAG);
+                ft.addToBackStack(GroupItemFragment.TAG);
+                ft.commit();
             }
         });
     }

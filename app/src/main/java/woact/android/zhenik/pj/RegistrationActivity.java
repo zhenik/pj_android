@@ -3,6 +3,7 @@ package woact.android.zhenik.pj;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,8 +30,14 @@ public class RegistrationActivity extends AppCompatActivity {
         userDao = new UserDao();
         initInputs();
         initButton();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    protected void onResume() {
+        getSupportActionBar().setTitle("DNB REGISTRATION");
+        super.onResume();
+    }
     private void initInputs(){
         userName=(EditText)findViewById(R.id.reg_username_input);
         password=(EditText)findViewById(R.id.reg_password_input);
@@ -66,6 +73,12 @@ public class RegistrationActivity extends AppCompatActivity {
             Toasty.info(getApplicationContext(), "All fields are required. Can not be empty", Toast.LENGTH_SHORT).show();
             return false;
         }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        onBackPressed();
         return true;
     }
 

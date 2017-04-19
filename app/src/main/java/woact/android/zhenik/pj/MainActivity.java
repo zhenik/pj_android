@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import woact.android.zhenik.pj.fragment.group.GroupFragment;
+import woact.android.zhenik.pj.fragment.group.GroupListFragment;
 import woact.android.zhenik.pj.fragment.profile.ProfileFragment;
 import woact.android.zhenik.pj.fragment.shop.ShopFragment;
 
@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initGroupFragment(){
         FragmentTransaction transaction = fm.beginTransaction();
-        if (fm.findFragmentByTag(GroupFragment.TAG)==null)
-            transaction.replace(R.id.content, new GroupFragment(), GroupFragment.TAG);
+//        if (fm.findFragmentByTag(GroupListFragment.TAG)==null)
+            transaction.replace(R.id.content, new GroupListFragment(), GroupListFragment.TAG);
         transaction.commit();
     }
 
@@ -74,6 +74,5 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 }
