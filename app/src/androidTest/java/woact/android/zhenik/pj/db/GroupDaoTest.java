@@ -63,7 +63,7 @@ public class GroupDaoTest {
     @Test
     public void testCreateGroup(){
         // Act
-        long id = groupDao.createGroup();
+        long id = groupDao.createGroup("somename");
 
         // Assert
         assertTrue(id!=-1l);
@@ -72,7 +72,7 @@ public class GroupDaoTest {
     @Test
     public void checkGetGroup_GroupExist(){
         // Arrange
-        long id = groupDao.createGroup();
+        long id = groupDao.createGroup("somename");
 
         // Act
         Group group = groupDao.getGroup(id);
@@ -97,7 +97,7 @@ public class GroupDaoTest {
     @Test
     public void checkGetTotalMoney_GroupExist(){
         // Arrange
-        long id = groupDao.createGroup();
+        long id = groupDao.createGroup("somename");
 
         // Act
         Double totalMoney = groupDao.getTotalMoney(id);
@@ -122,7 +122,7 @@ public class GroupDaoTest {
     @Test
     public void checkUpdateTotalMoney_GroupExist(){
         // Arrange
-        long id = groupDao.createGroup();
+        long id = groupDao.createGroup("somename");
 
         // Act
         Double totalMoneyBeforeUpdate = groupDao.getTotalMoney(id);
@@ -150,7 +150,7 @@ public class GroupDaoTest {
     @Test
     public void checkGetAvailableMoney_GroupExist(){
         // Arrange
-        long id = groupDao.createGroup();
+        long id = groupDao.createGroup("somename");
 
         // Act
         Double totalMoney = groupDao.getAvailableMoney(id);
@@ -175,7 +175,7 @@ public class GroupDaoTest {
     @Test
     public void checkUpdateAvailableMoney_GroupExist(){
         // Arrange
-        long id = groupDao.createGroup();
+        long id = groupDao.createGroup("somename");
 
         // Act
         Double availableMoneyBeforeUpdate = groupDao.getAvailableMoney(id);
@@ -203,7 +203,7 @@ public class GroupDaoTest {
     @Test
     public void checkSetGroupName_GroupExist(){
         // Arrange
-        long id = groupDao.createGroup();
+        long id = groupDao.createGroup("somename");
 
         // Act
         long rowsAffected = groupDao.setGroupName(id, "Friends");
@@ -213,7 +213,6 @@ public class GroupDaoTest {
 
         // Assert
         assertEquals("Friends", group.getGroupName());
-
     }
 
     @Test

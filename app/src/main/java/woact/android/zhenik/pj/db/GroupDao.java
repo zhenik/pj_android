@@ -24,12 +24,13 @@ public class GroupDao {
 
     public GroupDao() {}
 
-    public long createGroup() {
+    public long createGroup(String groupName) {
         long groupId;
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_TOTAL_MONEY, 0l);
         values.put(KEY_AVAILABLE_MONEY, 0l);
+        values.put(KEY_GROUP_NAME, groupName);
         // Inserting Row
         groupId = db.insert(TABLE_GROUPS, null, values);
         DatabaseManager.getInstance().closeDatabase();
