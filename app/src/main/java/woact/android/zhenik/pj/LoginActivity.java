@@ -50,11 +50,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         DummyDataFactory ddF = new DummyDataFactory();
         ddF.addUserDevMode(new User("a", "a", "Changiz Hosseini", 50000, 150));
         ddF.addUserDevMode(new User("b", "b", "Oda Humlung", 65000, 250));
-        ddF.addGroupDevMode(new Group(1,30000,20000));
-        ddF.addGroupDevMode(new Group(2,20000,20000));
+
+        ddF.addGroupDevMode(new Group(1,30000,20000, "Friends"));
+        ddF.addGroupDevMode(new Group(2,20000,20000, "Family"));
+        ddF.addGroupDevMode(new Group(3,10000,7000, "Banda"));
+//        GroupDao groupDao = new GroupDao();
+//        groupDao.setGroupName(1, "Friends");
+//        groupDao.setGroupName(2, "Family");
+//        groupDao.setGroupName(3, "Banda");
+
         ddF.addUserGroupDevMode(1,1,1,20000,10000);
         ddF.addUserGroupDevMode(2,2,1,10000,0);
         ddF.addUserGroupDevMode(3,2,2,20000,0);
+        ddF.addUserGroupDevMode(4,1,3,5000,1000);
+        ddF.addUserGroupDevMode(5,2,3,5000,2000);
+
     }
 
     private void initInputTextViews(){
