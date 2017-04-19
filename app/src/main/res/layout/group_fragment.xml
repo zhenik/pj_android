@@ -1,16 +1,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="woact.android.zhenik.pj.fragment.group.GroupFragment">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              tools:context="woact.android.zhenik.pj.fragment.group.GroupFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Groups"
-        android:textAlignment="center"/>
+    <ListView
+        android:id="@+id/groups_group_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--<com.lucasurbas.listitemview.ListItemView-->
+            <!--android:id="@+id/group_list"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:liv_displayMode="icon"-->
+            <!--app:liv_icon="@drawable/star"-->
+            <!--app:liv_menu="@menu/single_action_menu"-->
+            <!--app:liv_multiline="false"-->
+            <!--app:liv_subtitle="@string/subtitle"-->
+            <!--app:liv_title="@string/title"/>-->
+
+    </ListView>
+
 </LinearLayout>
