@@ -43,7 +43,6 @@ public class UserGroupDaoTest {
         DatabaseHelper mDatabaseHelper = DatabaseHelper.getHelper(context);
         DatabaseManager.initializeInstance(mDatabaseHelper);
         userGroupDao = new UserGroupDao();
-
         // utils
         userDao=new UserDao();
         groupDao=new GroupDao();
@@ -189,5 +188,133 @@ public class UserGroupDaoTest {
         assertEquals(2, groupList.size());
 
     }
+
+    @Test
+    public void checkGetUserInvestment_UserAndGroupExist(){
+        // Arrange
+        userGroupDao.registerUserInGroup(userId, groupId);
+
+        // Act
+        Double investment = userGroupDao.getUserInvestment(userId, groupId);
+
+        // Assert
+        assertEquals(0.0, investment, 0.01);
+    }
+
+    @Test
+    public void checkGetUserInvestment_UserOrGroupNOTExist(){
+        // Arrange
+        userGroupDao.registerUserInGroup(userId, groupId);
+
+        // Act
+        Double investment1 = userGroupDao.getUserInvestment(231231, groupId);
+        Double investment2 = userGroupDao.getUserInvestment(231231, 231231);
+        Double investment3 = userGroupDao.getUserInvestment(userId, 231231);
+
+        // Assert
+        assertTrue(investment1==null);
+        assertTrue(investment2==null);
+        assertTrue(investment3==null);
+    }
+
+
+    @Test
+    public void checkSetUserInvestment_UserAndGroupExist(){
+        // Arrange
+        userGroupDao.registerUserInGroup(userId, groupId);
+
+        // Act
+        Double investmentBefore = userGroupDao.getUserInvestment(userId, groupId);
+        userGroupDao.setUserInvestment(userId,groupId,investmentBefore+10.0);
+        Double investmentAfter = userGroupDao.getUserInvestment(userId, groupId);
+        int rows = userGroupDao.getAmountOfRows();
+
+        // Assert
+        assertEquals(0.0, investmentBefore, 0.01);
+        assertEquals(10.0, investmentAfter, 0.01);
+        assertEquals(1, rows);
+    }
+    @Test
+    public void checkSetUserInvestment_UserAOrGroupNOTExist(){
+        // Arrange
+        userGroupDao.registerUserInGroup(userId, groupId);
+
+        // Act
+
+        long rowsAffected1 = userGroupDao.setUserInvestment(231231,groupId,10.0);
+        long rowsAffected2 = userGroupDao.setUserInvestment(userId,231231,10.0);
+        long rowsAffected3 = userGroupDao.setUserInvestment(231231,231231,10.0);
+
+        // Assert
+        assertEquals(0, rowsAffected1);
+        assertEquals(0, rowsAffected2);
+        assertEquals(0, rowsAffected3);
+
+    }
+
+
+    @Test
+    public void checkGetUserLoan_UserAndGroupExist(){
+        // Arrange
+        userGroupDao.registerUserInGroup(userId, groupId);
+
+        // Act
+        Double loan = userGroupDao.getUserLoan(userId, groupId);
+
+        // Assert
+        assertEquals(0.0, loan, 0.01);
+    }
+
+    @Test
+    public void checkGetUserLoan_UserOrGroupNOTExist(){
+        // Arrange
+        userGroupDao.registerUserInGroup(userId, groupId);
+
+        // Act
+        Double loan1 = userGroupDao.getUserLoan(231231, groupId);
+        Double loan2 = userGroupDao.getUserLoan(231231, 231231);
+        Double loan3 = userGroupDao.getUserLoan(userId, 231231);
+
+        // Assert
+        assertTrue(loan1==null);
+        assertTrue(loan2==null);
+        assertTrue(loan3==null);
+    }
+
+
+    @Test
+    public void checkSetUserLoan_UserAndGroupExist(){
+        // Arrange
+        userGroupDao.registerUserInGroup(userId, groupId);
+
+        // Act
+        Double loanBefore = userGroupDao.getUserLoan(userId, groupId);
+        userGroupDao.setUserLoan(userId,groupId,10.0);
+        Double loantAfter = userGroupDao.getUserLoan(userId, groupId);
+        int rows = userGroupDao.getAmountOfRows();
+
+        // Assert
+        assertEquals(0.0, loanBefore, 0.01);
+        assertEquals(10.0, loantAfter, 0.01);
+        assertEquals(1, rows);
+    }
+    @Test
+    public void checkSetUserLoan_UserAOrGroupNOTExist(){
+        // Arrange
+        userGroupDao.registerUserInGroup(userId, groupId);
+
+        // Act
+
+        long rowsAffected1 = userGroupDao.setUserLoan(231231,groupId,10.0);
+        long rowsAffected2 = userGroupDao.setUserLoan(userId,231231,10.0);
+        long rowsAffected3 = userGroupDao.setUserLoan(231231,231231,10.0);
+
+        // Assert
+        assertEquals(0, rowsAffected1);
+        assertEquals(0, rowsAffected2);
+        assertEquals(0, rowsAffected3);
+    }
+
+
 
 }

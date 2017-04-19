@@ -16,6 +16,7 @@ import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_GROUP_ID;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_ID;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_INVESTMENT;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_LOAN;
+import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_MONEY;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_TOTAL_MONEY;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_USER_ID;
 import static woact.android.zhenik.pj.db.DatabaseHelper.TABLE_GROUPS;
@@ -149,6 +150,76 @@ public class UserGroupDao {
         }
         return groupList;
     }
+
+
+    public Double getUserInvestment(long userId, long groupId){
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        Cursor cursor = db.query(
+                TABLE_USER_GROUP,
+                new String[] {KEY_INVESTMENT},
+                KEY_USER_ID + "=? AND "+KEY_GROUP_ID+"=?",
+                new String[] {String.valueOf(userId),String.valueOf(groupId)},
+                null, null, null, null);
+
+        if (cursor != null && cursor.getCount()>0)
+            cursor.moveToFirst();
+        else
+            return null;
+
+        Double investments = cursor.getDouble(0);
+        DatabaseManager.getInstance().closeDatabase();
+        return investments;
+    }
+
+    public long setUserInvestment(long userId, long groupId, double newMoney) {
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_INVESTMENT, newMoney);
+        // updating row
+        long rawsAffected = db.update(TABLE_USER_GROUP, values, KEY_USER_ID + " = ? AND "+KEY_GROUP_ID+"=?",
+                         new String[] { String.valueOf(userId),  String.valueOf(groupId)});
+        DatabaseManager.getInstance().closeDatabase();
+        return rawsAffected;
+    }
+
+    // TODO: test it
+    public Double getUserLoan(long userId, long groupId){
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        Cursor cursor = db.query(
+                TABLE_USER_GROUP,
+                new String[] {KEY_LOAN},
+                KEY_USER_ID + "=? AND "+KEY_GROUP_ID+"=?",
+                new String[] {String.valueOf(userId),String.valueOf(groupId)},
+                null, null, null, null);
+
+        if (cursor != null && cursor.getCount()>0)
+            cursor.moveToFirst();
+        else
+            return null;
+
+        Double loan = cursor.getDouble(0);
+        DatabaseManager.getInstance().closeDatabase();
+        return loan;
+    }
+
+    public long setUserLoan(long userId, long groupId, double newLoan) {
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_LOAN, newLoan);
+        // updating row
+        long rawsAffected = db.update(TABLE_USER_GROUP, values, KEY_USER_ID + " = ? AND "+KEY_GROUP_ID+"=?",
+                                      new String[] { String.valueOf(userId),  String.valueOf(groupId)});
+        DatabaseManager.getInstance().closeDatabase();
+        return rawsAffected;
+    }
+
+
+
+
+
+
+
+
 
 
     /**
