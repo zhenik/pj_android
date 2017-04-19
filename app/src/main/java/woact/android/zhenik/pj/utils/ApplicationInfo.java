@@ -8,4 +8,5 @@ public class ApplicationInfo implements Serializable {
 
     public static final String USER ="USER";
     public static long USER_IN_SYSTEM_ID;
+    public static Long GROUP_CLICKED=null;
 }
