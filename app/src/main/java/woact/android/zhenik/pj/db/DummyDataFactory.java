@@ -2,6 +2,7 @@ package woact.android.zhenik.pj.db;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +14,7 @@ import woact.android.zhenik.pj.model.User;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_AVAILABLE_MONEY;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_FULL_NAME;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_GROUP_ID;
+import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_GROUP_NAME;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_ID;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_INVESTMENT;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_LOAN;
@@ -59,6 +61,7 @@ public class DummyDataFactory {
         values.put(KEY_ID, group.getId());
         values.put(KEY_TOTAL_MONEY, group.getTotalMoney());
         values.put(KEY_AVAILABLE_MONEY, group.getAvailableMoney());
+        values.put(KEY_GROUP_NAME, group.getGroupName());
         // Inserting Row
         groupId = db.insert(TABLE_GROUPS, null, values);
         DatabaseManager.getInstance().closeDatabase();
