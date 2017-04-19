@@ -61,7 +61,7 @@ public class UserGroupDaoTest {
         User user1 = new User("norman", "pass", "fullname");
         userId = userDao.registerUser(user1);
         assertTrue(userId!=-1l);
-        groupId = groupDao.createGroup();
+        groupId = groupDao.createGroup("somename");
     }
 
     @Test
@@ -177,7 +177,7 @@ public class UserGroupDaoTest {
     @Test
     public void checkGetGroupsOfUser_1User2Groups(){
         // Arrange
-        long newGroupId = groupDao.createGroup();
+        long newGroupId = groupDao.createGroup("somename");
         assertTrue(newGroupId!=-1);
         userGroupDao.registerUserInGroup(userId, groupId);
         userGroupDao.registerUserInGroup(userId, newGroupId);

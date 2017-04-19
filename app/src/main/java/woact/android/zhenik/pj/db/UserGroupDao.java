@@ -141,6 +141,7 @@ public class UserGroupDao {
                 group.setId(cursor.getLong(0));
                 group.setTotalMoney(cursor.getDouble(1));
                 group.setAvailableMoney(cursor.getDouble(2));
+                group.setGroupName(cursor.getString(3));
                 // Adding contact to list
                 groupList.add(group);
 
@@ -159,5 +160,13 @@ public class UserGroupDao {
         db.delete(TABLE_USER_GROUP, null, null);
         DatabaseManager.getInstance().closeDatabase();
         Log.d(TAG, "---clean db---");
+    }
+
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
+    public GroupDao getGroupDao() {
+        return groupDao;
     }
 }
