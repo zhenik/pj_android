@@ -1,11 +1,14 @@
 package woact.android.zhenik.pj.fragment.group;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -28,6 +32,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import woact.android.zhenik.pj.MainActivity;
 import woact.android.zhenik.pj.R;
 import woact.android.zhenik.pj.db.UserGroupDao;
@@ -41,7 +46,7 @@ public class GroupItemFragment extends Fragment {
 
     private View view;
     private UserGroupDao userGroupDao;
-    private long groupId;
+//    private long groupId;
     private Group group;
     private User user;
     private TextView investment;
@@ -52,6 +57,8 @@ public class GroupItemFragment extends Fragment {
     // Charts
     private PieChart chartInvestLoan;
     private PieChart chartTotalAvailable;
+    // Features
+    private String m_Text;
 
     public static GroupItemFragment newInstance(Group group) {
         GroupItemFragment groupItemFragment = new GroupItemFragment();
@@ -60,7 +67,7 @@ public class GroupItemFragment extends Fragment {
     }
 
     public void setGroup(Group group) {
-        groupId = group.getId();
+        this.group = group;
     }
 
     @Nullable
@@ -70,7 +77,6 @@ public class GroupItemFragment extends Fragment {
         setHasOptionsMenu(true);
         this.view=inflater.inflate(R.layout.group_item_fragment, null);
         userGroupDao=new UserGroupDao();
-        setHasOptionsMenu(true);
         return view;
     }
 
@@ -78,13 +84,17 @@ public class GroupItemFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {inflater.inflate(R.menu.back_menu, menu);}
 
-
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==R.id.action_back){
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.content, new GroupListFragment(), GroupListFragment.TAG);
-            transaction.commit();
+        switch (item.getItemId()){
+            case R.id.action_back:
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.content, new GroupListFragment(), GroupListFragment.TAG);
+                transaction.commit();
+                break;
+            case R.id.action_invest:
+                investMoney(ApplicationInfo.USER_IN_SYSTEM_ID, group.getId());
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -102,11 +112,19 @@ public class GroupItemFragment extends Fragment {
         updateChartData();
         super.onResume();
     }
+    public void updateAll(){
+        group = userGroupDao.getGroupDao().getGroup(group.getId());
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.content, GroupItemFragment.newInstance(group), GroupItemFragment.TAG);
+        ft.addToBackStack(GroupItemFragment.TAG);
+        ft.commit();
+    }
 
 
 
     private void fetch_update_UserGroupInvestmentLoanInfo(){
-        group=userGroupDao.getGroupDao().getGroup(groupId);
+        group=userGroupDao.getGroupDao().getGroup(group.getId());
         user=userGroupDao.getUserDao().getUserById(ApplicationInfo.USER_IN_SYSTEM_ID);
         String money = user.getMoney()+"";
         ((MainActivity) getActivity())
@@ -124,7 +142,7 @@ public class GroupItemFragment extends Fragment {
     // use in initTabs()
     private void initAdapter() {
         List<String> userNamesInGroup = new ArrayList<>();
-        List<User> users = userGroupDao.getUsersFromGroup(groupId);
+        List<User> users = userGroupDao.getUsersFromGroup(group.getId());
         for (User user:users)
             userNamesInGroup.add(user.getFullName());
         listOfUsers=(ListView) view.findViewById(R.id.group_item_collaborators);
@@ -207,7 +225,7 @@ public class GroupItemFragment extends Fragment {
         chart.setEntryLabelColor(Color.BLACK);
 
         List<PieEntry> entries = new ArrayList<PieEntry>();
-        float totalMoney = userGroupDao.getGroupDao().getTotalMoney(groupId).floatValue();
+        float totalMoney = userGroupDao.getGroupDao().getTotalMoney(group.getId()).floatValue();
         float investment = userGroupDao.getUserInvestment(user.getId(),group.getId()).floatValue();
         float allInvestments = userGroupDao.getAllInvestmentsInGroup(group.getId()).floatValue();
         float income = investment*totalMoney/allInvestments-investment;
@@ -295,4 +313,65 @@ public class GroupItemFragment extends Fragment {
         setPieTotalAvailable(chartTotalAvailable);
     }
 
+    private void investMoney(final long userId, final long groupId){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("How much money do you want invest?");
+        View viewInflated = LayoutInflater.from(getContext())
+                .inflate(R.layout.popup_input_investment, (ViewGroup) getView(), false);
+        final EditText input = (EditText) viewInflated.findViewById(R.id.input1);
+        builder.setView(viewInflated);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("INVEST: ", "input: "+input.getText().toString());
+//                m_Text = input.getText().toString();
+                m_Text = input.getText().toString();
+                if (!TextUtils.isEmpty(m_Text)) {
+                    Double investment=null;
+                    try{
+                        investment=Double.parseDouble(m_Text);
+                        Log.d("INVEST: ", "investment: "+investment);
+                    }
+                    catch (Exception e){}
+
+                    if (investment==null){
+                        Toasty.error(getContext(), "Cant invest", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (userGroupDao.getUserDao().getUserById(user.getId()).getMoney()<investment){
+                        Toasty.error(getContext(), "Not enought money to invest "+investment, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    /**
+                     * All DB INTERACTIONS
+                     * */
+                    double alreadyInvested = userGroupDao.getUserInvestment(userId, groupId);
+                    long raws = userGroupDao.setUserInvestment(userId,groupId,investment+alreadyInvested);
+                    double oldMoney=userGroupDao.getUserDao().getMoney(user.getId());
+                    userGroupDao.getUserDao().updateMoney(user.getId(), oldMoney-investment);
+
+                    double oldTotalMoney = userGroupDao.getGroupDao().getTotalMoney(group.getId());
+                    userGroupDao.getGroupDao().updateTotalMoney(group.getId(), oldTotalMoney+investment);
+
+                    double oldAvailableMoney = userGroupDao.getGroupDao().getAvailableMoney(group.getId());
+                    userGroupDao.getGroupDao().updateAvailableMoney(group.getId(), oldAvailableMoney+investment);
+
+                    Log.d("INVEST: ", "raws: "+raws);
+                }
+                else
+                    Toasty.error(getContext(), "Investment is empty", Toast.LENGTH_SHORT).show();
+                m_Text="";
+                updateAll();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
 }
