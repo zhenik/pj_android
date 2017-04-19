@@ -104,6 +104,10 @@
                     android:orientation="vertical">
 
 
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pie_invest_loan"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -112,6 +116,10 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pie_available_total"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
                 </LinearLayout>
 
                 <LinearLayout

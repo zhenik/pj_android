@@ -1,13 +1,11 @@
 package woact.android.zhenik.pj.fragment.group;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,19 +14,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import es.dmoral.toasty.Toasty;
 import woact.android.zhenik.pj.MainActivity;
 import woact.android.zhenik.pj.R;
-import woact.android.zhenik.pj.db.UserDao;
 import woact.android.zhenik.pj.db.UserGroupDao;
 import woact.android.zhenik.pj.model.Group;
 import woact.android.zhenik.pj.model.User;
@@ -48,6 +49,9 @@ public class GroupItemFragment extends Fragment {
     // list of users
     private ArrayAdapter<String> adapter;
     private ListView listOfUsers;
+    // Charts
+    private PieChart chartInvestLoan;
+    private PieChart chartTotalAvailable;
 
     public static GroupItemFragment newInstance(Group group) {
         GroupItemFragment groupItemFragment = new GroupItemFragment();
@@ -93,6 +97,9 @@ public class GroupItemFragment extends Fragment {
         initTextViews();
         fetch_update_UserGroupInvestmentLoanInfo();
         initTabs(view);
+//        initCharts();
+//        setPieInvestmentLoan(chartInvestLoan);
+        updateChartData();
         super.onResume();
     }
 
@@ -124,6 +131,12 @@ public class GroupItemFragment extends Fragment {
         adapter=new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, userNamesInGroup);
         listOfUsers.setAdapter(adapter);
     }
+    private void initCharts(){
+        chartInvestLoan=(PieChart)view.findViewById(R.id.pie_invest_loan);
+        chartTotalAvailable=(PieChart)view.findViewById(R.id.pie_available_total);
+        Log.d("TAG: ",chartInvestLoan.toString()+"");
+        Log.d("TAG: ",chartTotalAvailable.toString()+"");
+    }
     private void initTabs(View view){
 
         TabHost tabHost = (TabHost) view.findViewById(R.id.group_item_tabhost);
@@ -136,11 +149,11 @@ public class GroupItemFragment extends Fragment {
         tabSpec.setIndicator("Total");
         tabSpec.setContent(R.id.tab1);
         tabHost.addTab(tabSpec);
-
         tabSpec = tabHost.newTabSpec("tag2");
         tabSpec.setIndicator("Available");
         tabSpec.setContent(R.id.tab2);
         tabHost.addTab(tabSpec);
+//        updateChartData();
 
         tabSpec = tabHost.newTabSpec("tag3");
         tabSpec.setIndicator("Members");
@@ -180,6 +193,106 @@ public class GroupItemFragment extends Fragment {
                 Toast.makeText(getContext(), "tabId = " + tabId, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    private void setPieInvestmentLoan(PieChart chart){
+        // set pot
+//        chart.clearValues();
+        chart.setDrawHoleEnabled(false);
+//        chart.setUsePercentValues(false);
+        chart.getDescription().setEnabled(false);
+        chart.setExtraOffsets(5, 10, 5, 5);
+//        chart.setCenterText("Pot: available");
+        chart.setEntryLabelColor(Color.BLACK);
+
+        List<PieEntry> entries = new ArrayList<PieEntry>();
+        float totalMoney = userGroupDao.getGroupDao().getTotalMoney(groupId).floatValue();
+        float investment = userGroupDao.getUserInvestment(user.getId(),group.getId()).floatValue();
+        float allInvestments = userGroupDao.getAllInvestmentsInGroup(group.getId()).floatValue();
+        float income = investment*totalMoney/allInvestments-investment;
+        float other =  totalMoney-investment-income;
+
+//        Log.d("MATH: ", "totalMoney:"+totalMoney);
+//        Log.d("MATH: ", "investment:"+investment);
+//        Log.d("MATH: ", "allInvestments:"+allInvestments);
+//        Log.d("MATH: ", "income:"+income);
+//        Log.d("MATH: ", "other:"+other);
+
+        entries.add(new PieEntry(investment, "Investments"));
+        entries.add(new PieEntry(income, "Income"));
+        entries.add(new PieEntry(other, "Other"));
+//        entries.add(new PieEntry(pot.getTotalLoaned(), "Loaned"));
+//        if (pot.getUserLoan(user.getName())>0)
+//            entries.add(new PieEntry(pot.getUserLoan(user.getName()), "Your loan"));
+
+        PieDataSet dataSet = new PieDataSet(entries, ""); // add entries to dataset
+        dataSet.setColor(Color.BLACK);
+        // set colors #1
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+        colors.add(0xFE45BF55);
+        colors.add(0xFE167F39);
+        colors.add(0xFFFFF5A6);
+//        colors.add(0xFF262626);
+        colors.add(ColorTemplate.getHoloBlue());
+        dataSet.setColors(colors);
+
+        PieData pieData = new PieData(dataSet);
+//        pieData.setValueFormatter(new PercentFormatter());
+        pieData.setValueTextSize(11f);
+        pieData.setValueTextColor(Color.BLACK);
+        chart.setData(pieData);
+        chart.invalidate(); // refresh
+    }
+
+    private void setPieTotalAvailable(PieChart chart){
+        // set pot
+//        chart.clearValues();
+        chart.setDrawHoleEnabled(false);
+//        chart.setUsePercentValues(false);
+        chart.getDescription().setEnabled(false);
+        chart.setExtraOffsets(5, 10, 5, 5);
+//        chart.setCenterText("Pot: available");
+        chart.setEntryLabelColor(Color.BLACK);
+
+        List<PieEntry> entries = new ArrayList<PieEntry>();
+        // worst crutch EVER !!!
+        float totalMoney = (float)group.getTotalMoney();
+        float availableMoney = (float)group.getAvailableMoney();
+
+        Log.d("MATH: ", "totalMoney:"+totalMoney);
+        Log.d("MATH: ", "availableMoney:"+availableMoney);
+
+        entries.add(new PieEntry(totalMoney-availableMoney, "Loaned"));
+        entries.add(new PieEntry(availableMoney, "Available"));
+
+        PieDataSet dataSet = new PieDataSet(entries, ""); // add entries to dataset
+        dataSet.setColor(Color.BLACK);
+        // set colors #1
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+        colors.add(0xFEE5000D);
+        colors.add(0xFE00BF3E);
+        colors.add(ColorTemplate.getHoloBlue());
+        dataSet.setColors(colors);
+
+        PieData pieData = new PieData(dataSet);
+//        pieData.setValueFormatter(new PercentFormatter());
+        pieData.setValueTextSize(11f);
+        pieData.setValueTextColor(Color.BLACK);
+        chart.setData(pieData);
+        chart.invalidate(); // refresh
+    }
+
+
+    private void updateChartData(){
+        initCharts();
+        if (chartInvestLoan.getData()!=null)
+            chartInvestLoan.clearValues();
+        if (chartTotalAvailable.getData()!=null)
+            chartTotalAvailable.clearValues();
+
+        setPieInvestmentLoan(chartInvestLoan);
+        setPieTotalAvailable(chartTotalAvailable);
     }
 
 }
