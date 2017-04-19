@@ -315,6 +315,24 @@ public class UserGroupDaoTest {
         assertEquals(0, rowsAffected3);
     }
 
+    @Test
+    public void checkGetAllInvestmentsInGroup(){
+        // Arrange
+        long newUserId = userDao.registerUser(new User("foo", "bar", "foos"));
+        userGroupDao.registerUserInGroup(userId, groupId);
+        userGroupDao.registerUserInGroup(newUserId, groupId);
+
+        // Act
+        userGroupDao.setUserInvestment(userId, groupId, 5000);
+        userGroupDao.setUserInvestment(newUserId, groupId, 6000);
+        Double investments = userGroupDao.getAllInvestmentsInGroup(groupId);
+
+        // Assert
+        assertTrue(investments!=null);
+        assertEquals(11000, investments, 0.01);
+
+    }
+
 
 
 }

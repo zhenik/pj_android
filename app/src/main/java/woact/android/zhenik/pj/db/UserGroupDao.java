@@ -214,6 +214,30 @@ public class UserGroupDao {
     }
 
 
+    // TODO: test it
+    public Double getAllInvestmentsInGroup(long groupId){
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        Cursor cursor = db.query(
+                TABLE_USER_GROUP,
+                new String[] {KEY_INVESTMENT},
+                KEY_GROUP_ID+"=?",
+                new String[] {String.valueOf(groupId)},
+                null, null, null, null);
+
+        if (cursor != null && cursor.getCount()>0)
+            cursor.moveToFirst();
+        else
+            return null;
+        Double allInvestments = 0.0;
+        if (cursor.moveToFirst()) {
+            do {
+                allInvestments+=cursor.getDouble(0);
+            } while (cursor.moveToNext());
+        }
+        DatabaseManager.getInstance().closeDatabase();
+        return allInvestments;
+    }
+
 
 
 
