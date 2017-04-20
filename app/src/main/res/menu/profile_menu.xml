@@ -6,4 +6,10 @@
             android:icon="@mipmap/ic_exit_to_app_white_24dp"
             android:title="Logout"
             app:showAsAction="always"/>
+
+        <item
+            android:id="@+id/action_invitation_list"
+            android:icon="@mipmap/ic_menu_white_24dp"
+            android:title="Invitation list"
+            app:showAsAction="always"/>
 </menu>
