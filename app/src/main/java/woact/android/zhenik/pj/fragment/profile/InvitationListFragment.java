@@ -1,5 +1,7 @@
 package woact.android.zhenik.pj.fragment.profile;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,12 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import java.util.ArrayList;
+import android.widget.Toast;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import woact.android.zhenik.pj.MainActivity;
 import woact.android.zhenik.pj.R;
 import woact.android.zhenik.pj.db.InvitationDao;
@@ -30,14 +33,13 @@ import woact.android.zhenik.pj.utils.InvitationCustomAdapter;
 public class InvitationListFragment extends Fragment {
     public static final String TAG = "I.ListFragment:> ";
 
-    private ListView invitationList;
+
     private View view;
     private InvitationDao invitationDao;
     private UserGroupDao userGroupDao;
     private InvitationCustomAdapter invitationCustomAdapter;
 
     private ListView listOfInvitations;
-    private ArrayAdapter<String> adapter;
 
 
 //    private GroupCustomAdapter groupCustomAdapter;
@@ -52,8 +54,6 @@ public class InvitationListFragment extends Fragment {
         this.view=inflater.inflate(R.layout.invitation_list_fragment, null);
         userGroupDao=new UserGroupDao();
         invitationDao=new InvitationDao();
-
-//        getSupportActionBar().setTitle("your title");
         return view;
     }
 
@@ -79,76 +79,58 @@ public class InvitationListFragment extends Fragment {
     }
 
     private void initAdapters() {
-
-
-//        List<Invitation> invitations = invitationDao.getInvitationsListOfUser(ApplicationInfo.USER_IN_SYSTEM_ID);
-//        Log.d("CRASH1", "before invitationCustomAdapter");
-//        List<String> names = new ArrayList<>();
-//        names.add("1");
-//        names.add("2");
-//        names.add("3");
-//        Log.d("CRASH1 ", "1");
-//        listOfInvitations=(ListView) view.findViewById(R.id.invitation_list_listView);
-//        adapter=new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, names);
-//        listOfInvitations.setAdapter(adapter);
-
-//        List<Invitation> invitations = new ArrayList<>();
-        //        invitations.add(new Invitation(1,2,ApplicationInfo.USER_IN_SYSTEM_ID,1));
-//        invitations.add(new Invitation(2,2,ApplicationInfo.USER_IN_SYSTEM_ID,2));
-//        invitations.add(new Invitation(3,2,ApplicationInfo.USER_IN_SYSTEM_ID,3));
         List<Invitation> invitations = invitationDao.getInvitationsListOfUser(ApplicationInfo.USER_IN_SYSTEM_ID);
         Log.d("SENDING.I", " invitations size "+invitations.size());
-
         Log.d("CRASH1 ", "1 ");
         listOfInvitations=(ListView) view.findViewById(R.id.invitation_list_listView);
         Log.d("CRASH1 ", "2 "+ listOfInvitations.toString()+"");
         invitationCustomAdapter= new InvitationCustomAdapter(getContext(), R.layout.item_invitation, invitations);
         listOfInvitations.setAdapter(invitationCustomAdapter);
-
-
-//        initListViewListener();
-
+        initListViewListener();
     }
 
-//    private void initListViewListener(){
-//        invitationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Invitation invitation = ((Invitation)invitationList.getItemAtPosition(position));
-//                Toast.makeText(
-//                        getContext(),
-//                        "invitation id: " +invitation.getId(),
-//                        Toast.LENGTH_SHORT
-//                ).show();
-//            }
-//        });
-//    }
-
-//    private void initAdapters(){
-//        List<Group> dummyGroupsName = userGroupDao.getGroupsOfUser(ApplicationInfo.USER_IN_SYSTEM_ID);
-//        groupCustomAdapter = new GroupCustomAdapter(getContext(), R.layout.item_friend, dummyGroupsName);
-//        groupsListView.setAdapter(groupCustomAdapter);
-//        initListViewListener();
-//    }
-//
-//    private void initListViewListener(){
-//        groupsListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Group group = ((Group)groupsListView.getItemAtPosition(position));
-//                ApplicationInfo.GROUP_CLICKED=null;
-//                ApplicationInfo.GROUP_CLICKED=group.getId();
-//                Toast.makeText(
-//                        getContext(),
-//                        group.getGroupName() + ":"+ApplicationInfo.GROUP_CLICKED,
-//                        Toast.LENGTH_SHORT
-//                ).show();
-//                fm = getFragmentManager();
-//                FragmentTransaction ft = fm.beginTransaction();
-//                ft.replace(R.id.content, GroupItemFragment.newInstance(group), GroupItemFragment.TAG);
-//                ft.addToBackStack(GroupItemFragment.TAG);
-//                ft.commit();
-//            }
-//        });
-//    }
+    private void initListViewListener(){
+        listOfInvitations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final Invitation invitation = ((Invitation)listOfInvitations.getItemAtPosition(position));
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Invitation");
+                builder.setMessage(
+                        invitation.getSendBy().getFullName()+" invite you to group "+invitation.getGroup().getGroupName());
+                builder.setPositiveButton("Accept",
+                                          new DialogInterface.OnClickListener()
+                                          {
+                                              public void onClick(DialogInterface dialog, int id)
+                                              {
+                                                  userGroupDao.registerUserInGroup(invitation.getReceivedById(), invitation.getGroupId());
+                                                  invitationDao.deleteRaw(invitation.getId());
+                                                  Toasty.success(getContext(), "Invitation was accepted",Toast.LENGTH_SHORT).show();
+                                                  onResume();
+                                                  dialog.cancel();
+                                              }
+                                          });
+                builder.setNeutralButton("Decline",
+                                         new DialogInterface.OnClickListener()
+                                         {
+                                             public void onClick(DialogInterface dialog, int id)
+                                             {
+                                                 invitationDao.deleteRaw(invitation.getId());
+                                                 Toasty.info(getContext(), "Invitation was declined",Toast.LENGTH_SHORT).show();
+                                                 onResume();
+                                                 dialog.cancel();
+                                             }
+                                         });
+                builder.setNegativeButton("Cancel",
+                                          new DialogInterface.OnClickListener()
+                                          {
+                                              public void onClick(DialogInterface dialog, int id)
+                                              {
+                                                  dialog.cancel();
+                                              }
+                                          });
+                builder.show();
+            }
+        });
+    }
 }
