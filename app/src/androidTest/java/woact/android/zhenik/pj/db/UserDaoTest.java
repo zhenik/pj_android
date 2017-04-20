@@ -92,6 +92,21 @@ public class UserDaoTest {
     }
 
     @Test
+    public void checkGetUserByUserName(){
+        // Arrange
+        String username ="norman";
+        User user1 = new User(username, "pass", "fullname");
+        long id1 = userDao.registerUser(user1);
+
+        // Act
+        User userFromDb =userDao.getUserByUserName(username);
+
+        // Assert
+        assertTrue(userFromDb!=null);
+        assertEquals("fullname", userFromDb.getFullName());
+    }
+
+    @Test
     public void testGetUserByNameAndPassword_UserNotExist(){
         // Act
         User userFromDb = userDao.getUserByNameAndPassword("notExist", "notExist");

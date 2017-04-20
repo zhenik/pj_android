@@ -203,4 +203,25 @@ public class UserDao {
         Log.d(TAG, "---clean db---");
     }
 
+    public User getUserByUserName(String username) {
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        Cursor cursor = db.query(
+                TABLE_USERS,
+                new String[] {KEY_ID, KEY_USER_NAME, KEY_PASSWORD, KEY_FULL_NAME, KEY_MONEY, KEY_SCORE},
+                KEY_USER_NAME + "=?",
+                new String[] {username},
+                null, null, null, null);
+        if (cursor != null & cursor.getCount()>0)
+            cursor.moveToFirst();
+        else
+            return null;
+
+        User user = new User(cursor.getLong(0),
+                             cursor.getString(1),
+                             cursor.getString(2),
+                             cursor.getString(3),
+                             cursor.getDouble(4),
+                             cursor.getLong(5));
+        return user;
+    }
 }
