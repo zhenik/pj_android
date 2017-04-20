@@ -1,9 +1,12 @@
 package woact.android.zhenik.pj.fragment.profile;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,15 +14,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.List;
+
+import es.dmoral.toasty.Toasty;
 import woact.android.zhenik.pj.LoginActivity;
 import woact.android.zhenik.pj.MainActivity;
 import woact.android.zhenik.pj.R;
 import woact.android.zhenik.pj.db.UserDao;
 import woact.android.zhenik.pj.db.UserGroupDao;
+import woact.android.zhenik.pj.model.Invitation;
 import woact.android.zhenik.pj.model.User;
 import woact.android.zhenik.pj.utils.ApplicationInfo;
 
@@ -56,15 +65,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {inflater.inflate(R.menu.profile_menu, menu);}
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==R.id.action_logout){
-            Log.d("USER_IN_SYSTEM: ", ApplicationInfo.USER_IN_SYSTEM_ID+" <-here");
-            ApplicationInfo.USER_IN_SYSTEM_ID= 0;
-            Log.d("USER_IN_SYSTEM: ", ApplicationInfo.USER_IN_SYSTEM_ID+" <-here");
-            startActivity(new Intent(view.getContext(), LoginActivity.class));
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
     private void initDaos(){
         userDao=new UserDao();
         userGroupDao=new UserGroupDao();
@@ -96,5 +97,31 @@ public class ProfileFragment extends Fragment {
         updateInfo();
         super.onResume();
 
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()==R.id.action_logout){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Do you want logout?");
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.d("USER_IN_SYSTEM: ", ApplicationInfo.USER_IN_SYSTEM_ID+" <-here");
+                    ApplicationInfo.USER_IN_SYSTEM_ID= 0;
+                    Log.d("USER_IN_SYSTEM: ", ApplicationInfo.USER_IN_SYSTEM_ID+" <-here");
+                    startActivity(new Intent(view.getContext(), LoginActivity.class));
+                    dialog.dismiss();
+                }
+            });
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
