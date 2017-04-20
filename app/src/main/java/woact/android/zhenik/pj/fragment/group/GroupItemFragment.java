@@ -693,8 +693,11 @@ public class GroupItemFragment extends Fragment {
                         return;
                     }
 
+                    // TODO: validate for is User already invited to this group | find by (receivedId, groupId)
+
                     // sending invitation
                     long inviteId = invitationDao.createInvitation(senderId, user.getId(), groupId);
+                    Log.d("SENDING.I", "senderId: "+senderId + " user.getId(): "+user.getId()+" groupId "+groupId);
 
                     if (inviteId==-1){
                         Toasty.error(getContext(), "Something goes wrong",
