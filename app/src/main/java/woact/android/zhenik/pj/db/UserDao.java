@@ -117,7 +117,7 @@ public class UserDao {
         return score;
     }
 
-    public long updateMoney(long userId, double newMoney) {
+    public long setMoney(long userId, double newMoney) {
         SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_MONEY, newMoney);

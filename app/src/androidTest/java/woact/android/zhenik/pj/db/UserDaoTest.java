@@ -209,7 +209,7 @@ public class UserDaoTest {
 
         // Act
         User userBeforeUpdate = userDao.getUserById(id);
-        long rowsAffected = userDao.updateMoney(id, 555.5);
+        long rowsAffected = userDao.setMoney(id, 555.5);
         User userAfterUpdate = userDao.getUserById(id);
 
         // Assert
@@ -225,7 +225,7 @@ public class UserDaoTest {
         long idNotExist = 432423423l;
 
         // Act
-        long rowsAffected = userDao.updateMoney(idNotExist, 555.5);
+        long rowsAffected = userDao.setMoney(idNotExist, 555.5);
 
         // Assert
         assertTrue(rowsAffected==0);
@@ -237,7 +237,7 @@ public class UserDaoTest {
         long id = userDao.registerUser(new User("Oda", "p1", "Oda H."));
 
         // Act
-        userDao.updateMoney(id, 14000.0);
+        userDao.setMoney(id, 14000.0);
         Double money = userDao.getMoney(id);
 
         // Assert
