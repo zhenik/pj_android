@@ -1,6 +1,5 @@
 package woact.android.zhenik.pj.utils;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +32,7 @@ public class GroupCustomAdapter extends ArrayAdapter<Group> {
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.item, null);
+            v = vi.inflate(R.layout.item_friend, null);
         }
         Group group = getGroup(position);
         if (group != null) {
