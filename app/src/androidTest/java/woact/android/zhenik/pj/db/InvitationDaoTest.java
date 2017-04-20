@@ -170,4 +170,20 @@ public class InvitationDaoTest {
         assertEquals(2, rawsDeleted);
     }
 
+    @Test
+    public void checkGetInvitation_By3Params(){
+        // Arrange
+        invitationDao.createInvitation(userId1,userId2,groupId1);
+
+        // Act
+        Invitation invitation = invitationDao.getInvitation(userId1,userId2,groupId1);
+
+        // Assert
+        assertTrue(invitation!=null);
+        assertEquals("foo1", invitation.getSendBy().getUserName());
+        assertEquals(userId1, invitation.getSendById());
+        assertEquals("foo2", invitation.getReceivedBy().getUserName());
+        assertEquals(userId2, invitation.getReceivedById());
+    }
+
 }

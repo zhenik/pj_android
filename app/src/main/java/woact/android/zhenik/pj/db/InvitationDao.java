@@ -139,4 +139,29 @@ public class InvitationDao {
         Log.d(TAG, "---clean db---");
     }
 
+    public Invitation getInvitation(long senderId, long recieverId, long groupId) {
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        Cursor cursor = db.query(
+                TABLE_INVITATIONS,
+                new String[] {KEY_ID, KEY_SEND_BY_ID, KEY_RECEIVED_BY_ID, KEY_GROUP_ID},
+                KEY_SEND_BY_ID + "=? AND "+KEY_RECEIVED_BY_ID+"=? AND "+KEY_GROUP_ID+"=?",
+                new String[] {String.valueOf(senderId),String.valueOf(recieverId),String.valueOf(groupId)},
+                null, null, null, null);
+
+        if (cursor != null & cursor.getCount()>0)
+            cursor.moveToFirst();
+        else
+            return null;
+
+        Invitation invitation = new Invitation();
+        invitation.setId(cursor.getLong(0));
+        invitation.setSendById(cursor.getLong(1));
+        invitation.setSendBy(userDao.getUserById(cursor.getLong(1)));
+        invitation.setReceivedById(cursor.getLong(2));
+        invitation.setReceivedBy(userDao.getUserById(cursor.getLong(2)));
+        invitation.setGroupId(cursor.getLong(3));
+        invitation.setGroup(groupDao.getGroup(cursor.getLong(3)));
+
+        return invitation;
+    }
 }
