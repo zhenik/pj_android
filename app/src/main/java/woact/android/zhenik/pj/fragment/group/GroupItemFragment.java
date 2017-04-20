@@ -35,8 +35,10 @@ import java.util.List;
 import es.dmoral.toasty.Toasty;
 import woact.android.zhenik.pj.MainActivity;
 import woact.android.zhenik.pj.R;
+import woact.android.zhenik.pj.db.InvitationDao;
 import woact.android.zhenik.pj.db.UserGroupDao;
 import woact.android.zhenik.pj.model.Group;
+import woact.android.zhenik.pj.model.Invitation;
 import woact.android.zhenik.pj.model.User;
 import woact.android.zhenik.pj.utils.ApplicationInfo;
 
@@ -46,6 +48,7 @@ public class GroupItemFragment extends Fragment {
 
     private View view;
     private UserGroupDao userGroupDao;
+    private InvitationDao invitationDao;
 //    private long groupId;
     private Group group;
     private User user;
@@ -78,6 +81,7 @@ public class GroupItemFragment extends Fragment {
         setHasOptionsMenu(true);
         this.view=inflater.inflate(R.layout.group_item_fragment, null);
         userGroupDao=new UserGroupDao();
+        invitationDao=new InvitationDao();
         return view;
     }
 
@@ -103,9 +107,14 @@ public class GroupItemFragment extends Fragment {
                 withdraw(user.getId(),group.getId());
 //                goToGroupList();
                 break;
+            case R.id.action_invite:
+                invite(user.getId(), group.getId());
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
     private void goToGroupList(){
         FragmentManager fm = getFragmentManager();
@@ -643,6 +652,75 @@ public class GroupItemFragment extends Fragment {
 
         Toasty.success(getContext(), "Withdraw all your money bro", Toast.LENGTH_SHORT).show();
         goToGroupList();
+    }
+
+    private void invite(final long senderId, final long groupId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Enter username of person to invite in current group");
+        View viewInflated = LayoutInflater.from(getContext())
+                .inflate(R.layout.popup_input_group_name, (ViewGroup) getView(), false);
+        final EditText input = (EditText) viewInflated.findViewById(R.id.input1);
+        builder.setView(viewInflated);
+
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                m_Text = input.getText().toString();
+                if (!TextUtils.isEmpty(m_Text)) {
+                    User user = userGroupDao.getUserDao().getUserByUserName(m_Text);
+                    // validation if user eist
+                    if (user==null){
+                        Toasty.error(getContext(), "User do not exist", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // validation if user already in group
+                    List<User> usersInThisGroup = userGroupDao.getUsersFromGroup(groupId);
+                    for (User u:usersInThisGroup){
+                        if (u.getId()==user.getId()){
+                            Toasty.info(getContext(), "This user is in this group already",
+                                         Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+
+                    // validation if invitation has already been send
+                    Invitation invitation = invitationDao
+                            .getInvitation(senderId, user.getId(), groupId);
+                    if (invitation!=null){
+                        Toasty.info(getContext(), "You have already send invitation to user with username: "+user.getUserName(),
+                                    Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // sending invitation
+                    long inviteId = invitationDao.createInvitation(senderId, user.getId(), groupId);
+
+                    if (inviteId==-1){
+                        Toasty.error(getContext(), "Something goes wrong",
+                                    Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else {
+                        Toasty.success(getContext(), "Invitation has been send to Person: "+user.getFullName(),
+                                    Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                else
+                    Toasty.error(getContext(), "The field is empty", Toast.LENGTH_SHORT).show();
+                m_Text="";
+//                updateAll();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 
 
