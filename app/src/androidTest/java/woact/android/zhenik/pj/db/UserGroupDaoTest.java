@@ -333,6 +333,49 @@ public class UserGroupDaoTest {
 
     }
 
+    @Test
+    public void checkDeleteRaw(){
+        // Arrange
+        userGroupDao.registerUserInGroup(userId, groupId);
+        userGroupDao.setUserInvestment(userId, groupId, 5000);
+
+        // Act
+        int rawsBefore = userGroupDao.getAmountOfRows();
+        int deleted = userGroupDao.deleteRaw(userId,groupId);
+        int rawsAfter = userGroupDao.getAmountOfRows();
+        Log.d("RAWTEST: ", rawsBefore + " | "+rawsAfter);
+
+        // Assert
+        assertEquals(1, rawsBefore);
+        assertEquals(1, deleted);
+        assertEquals(0, rawsAfter);
+    }
+
+    @Test
+    public void checkDeleteRaw_UserOrGroupNotExists_MultipleDeleting(){
+        // Arrange
+        userGroupDao.registerUserInGroup(userId, groupId);
+        userGroupDao.setUserInvestment(userId, groupId, 5000);
+
+        // Act
+        int rawsBefore = userGroupDao.getAmountOfRows();
+
+        int deleted1 = userGroupDao.deleteRaw(1231231,groupId);
+        int deleted2 = userGroupDao.deleteRaw(userId,1231231);
+        int deleted3 = userGroupDao.deleteRaw(1231231,1231231);
+
+        int rawsAfter = userGroupDao.getAmountOfRows();
+        Log.d("RAWTEST: ", rawsBefore + " | "+rawsAfter);
+
+        // Assert
+        assertEquals(1, rawsBefore);
+        assertEquals(0, deleted1);
+        assertEquals(0, deleted2);
+        assertEquals(0, deleted3);
+        assertEquals(1, rawsAfter);
+    }
+
+
 
 
 }

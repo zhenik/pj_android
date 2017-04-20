@@ -238,7 +238,17 @@ public class UserGroupDao {
         return allInvestments;
     }
 
-
+    // Deleting single raw
+    public int deleteRaw(long userId, long groupId) {
+        SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+        int rowsDeleted = db.delete(
+                TABLE_USER_GROUP,
+                KEY_USER_ID + " = ? AND "+KEY_GROUP_ID+"=?",
+                new String[] { String.valueOf(userId), String.valueOf(groupId)}
+        );
+        DatabaseManager.getInstance().closeDatabase();
+        return rowsDeleted;
+    }
 
 
 
