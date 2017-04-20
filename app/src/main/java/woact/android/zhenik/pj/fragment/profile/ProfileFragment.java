@@ -1,16 +1,21 @@
 package woact.android.zhenik.pj.fragment.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import woact.android.zhenik.pj.LoginActivity;
 import woact.android.zhenik.pj.MainActivity;
 import woact.android.zhenik.pj.R;
 import woact.android.zhenik.pj.db.UserDao;
@@ -44,9 +49,22 @@ public class ProfileFragment extends Fragment {
         this.view=inflater.inflate(R.layout.profile_fragment, null);
         initInfoElements();
         initDaos();
+        setHasOptionsMenu(true);
         return view;
     }
+    // Menu
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {inflater.inflate(R.menu.profile_menu, menu);}
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()==R.id.action_logout){
+            Log.d("USER_IN_SYSTEM: ", ApplicationInfo.USER_IN_SYSTEM_ID+" <-here");
+            ApplicationInfo.USER_IN_SYSTEM_ID= 0;
+            Log.d("USER_IN_SYSTEM: ", ApplicationInfo.USER_IN_SYSTEM_ID+" <-here");
+            startActivity(new Intent(view.getContext(), LoginActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void initDaos(){
         userDao=new UserDao();
         userGroupDao=new UserGroupDao();
