@@ -1,6 +1,8 @@
 package woact.android.zhenik.pj;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,26 +40,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         DatabaseManager.initializeInstance(DatabaseHelper.getHelper(getApplicationContext()));
         userDao = new UserDao();
-
-        /**
-         * dev mode ONLY
-         * TODO: Delete application from mobile-devise before jUnit tests, because dummydata conflicts.
-         * */
-        devModeDummyData();
+        databaseSetup();
     }
 
-    @Override
-    protected void onResume() {
-        getSupportActionBar().setTitle("DNB BONUS");
-        super.onResume();
-    }
+    /**
+     * DB setup once only
+     * */
+    private void databaseSetup(){
+//        DummyDataFactory ddF = new DummyDataFactory();
+//        ddF.addUserDevMode(new User("nik", "nik", "Nik God", 100000, 100000));
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Log.d("DUMMY:", " pref contain firstTime key - "+prefs.contains("firstTime"));
+        if (!prefs.getBoolean("firstTime", false)) {
+            // <---- run your one time code here
+            devModeDummyData();
+            // mark first time has runned.
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("firstTime", true);
+            editor.commit();
+        }
 
+    }
     private void devModeDummyData(){
         DummyDataFactory ddF = new DummyDataFactory();
         ddF.addUserDevMode(new User("a", "a", "Changiz Hosseini", 50000, 150));
         ddF.addUserDevMode(new User("b", "b", "Oda Humlung", 65000, 250));
 
-        ddF.addGroupDevMode(new Group(1,13000,13000, "Friends"));
+        ddF.addGroupDevMode(new Group(1, 13000, 13000, "Friends"));
         ddF.addGroupDevMode(new Group(2,22000,20000, "Family"));
         ddF.addGroupDevMode(new Group(3,13000,7000, "Banda"));
 //        GroupDao groupDao = new GroupDao();
@@ -70,14 +79,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         ddF.addUserGroupDevMode(3,2,2,20000,0);
         ddF.addUserGroupDevMode(4,1,3,5000,1000);
         ddF.addUserGroupDevMode(5,2,3,5000,2000);
+        Log.d("DUMMY:", "______________________");
+        Log.d("DUMMY:", "dummy data was created");
+        Log.d("DUMMY:", "----------------------");
+    }
 
+    @Override
+    protected void onResume() {
+        getSupportActionBar().setTitle("DNB BONUS");
+        super.onResume();
     }
 
     private void initInputTextViews(){
         userNameInput=(EditText)findViewById(R.id.login_userName_field);
         passwordInput=(EditText)findViewById(R.id.login_password_field);
     }
-
 
     private void initButtons(){
         loginBtn=(Button) findViewById(R.id.login_login_btn);
