@@ -23,7 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     protected static final String TABLE_USERS = "users";
     protected static final String TABLE_GROUPS = "groups";
     protected static final String TABLE_USER_GROUP = "user_group";
-
+    protected static final String TABLE_INVITATIONS = "invitations";
     // Common column names
     protected static final String KEY_ID = "id";
     // USERS Table - column names
@@ -41,6 +41,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     protected static final String KEY_GROUP_ID = "groupId";
     protected static final String KEY_INVESTMENT = "investment";
     protected static final String KEY_LOAN = "loan";
+    // INVITATIONS_TABLE
+    protected static final String KEY_SEND_BY_ID = "sendBy";
+    protected static final String KEY_RECEIVED_BY_ID = "receivedBy";
+//    protected static final String KEY_GROUP_ID = "receivedBy";
+
 
     // users table create statement
     private static final String CREATE_TABLE_USERS = "CREATE TABLE "
@@ -60,14 +65,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_AVAILABLE_MONEY  + " REAL DEFAULT 0,"
             + KEY_GROUP_NAME + " TEXT DEFAULT 'NONAME')";
 
-    // user_group table create statement
-//    private static final String CREATE_TABLE_USER_GROUP = "CREATE TABLE "
-//            + TABLE_USER_GROUP + "("
-//            + KEY_USER_ID + " INTEGER PRIMARY KEY,"
-//            + KEY_GROUP_ID + " INTEGER PRIMARY KEY,"
-//            + KEY_INVESTMENT + " REAL,"
-//            + KEY_LOAN + " REAL)";
-
     /**
      * CREATE TABLE suppliers (
      supplier_id integer PRIMARY KEY,
@@ -86,6 +83,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + " FOREIGN KEY (" +KEY_USER_ID+") REFERENCES "+TABLE_USERS+"("+KEY_ID+"),"
             + " FOREIGN KEY (" +KEY_GROUP_ID+") REFERENCES "+TABLE_GROUPS+"("+KEY_ID+")"+")";
 
+    // invitations table create statement
+    private static final String CREATE_TABLE_INVITATIONS = "CREATE TABLE "
+            + TABLE_INVITATIONS + "("
+            + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_SEND_BY_ID + " INTEGER NOT NULL,"
+            + KEY_RECEIVED_BY_ID + " INTEGER NOT NULL,"
+            + KEY_GROUP_ID + " INTEGER NOT NULL,"
+            + " FOREIGN KEY (" +KEY_SEND_BY_ID+") REFERENCES "+TABLE_USERS+"("+KEY_ID+"),"
+            + " FOREIGN KEY (" +KEY_RECEIVED_BY_ID+") REFERENCES "+TABLE_USERS+"("+KEY_ID+"),"
+            + " FOREIGN KEY (" +KEY_GROUP_ID+") REFERENCES "+TABLE_GROUPS+"("+KEY_ID+")"+")";
     /**
      * Synchronized singleton
      * */
@@ -103,7 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_USERS);
         db.execSQL(CREATE_TABLE_GROUPS);
         db.execSQL(CREATE_TABLE_USER_GROUP);
-        Log.d(TAG, CREATE_TABLE_USER_GROUP);
+        db.execSQL(CREATE_TABLE_INVITATIONS);
         Log.d(TAG, "db was created");
     }
 
