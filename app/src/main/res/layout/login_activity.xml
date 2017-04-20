@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_activity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
     <!--android:background="16dp"-->
     <!--android:paddingBottom="16dp"-->
     <!--android:paddingLeft="16dp"-->
@@ -13,55 +14,62 @@
     <!--android:paddingTop="16dp">-->
 
 
+    <ImageView
+        android:id="@+id/login_logo_id"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/logo"
+        app:srcCompat="@drawable/logo"
+        />
+
     <LinearLayout
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="12dp"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_below="@+id/login_logo_id"
+        android:layout_alignParentStart="true">
 
         <EditText
             android:id="@+id/login_userName_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:background="@drawable/input_background"
             android:hint="@string/username"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:padding="15dp"/>
 
         <EditText
             android:id="@+id/login_password_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_marginTop="5dp"
+            android:background="@drawable/input_background"
             android:hint="@string/password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:padding="15dp"/>
 
         <Button
             android:id="@+id/login_login_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/btn_background"
             android:text="@string/login"
-            />
+            android:textColor="@android:color/background_light"/>
 
         <Button
             android:id="@+id/login_registration_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@drawable/btn_background"
             android:text="@string/registration"
-            />
+            android:textColor="@android:color/background_light"/>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/login_logo_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/login_form"
-        android:layout_centerHorizontal="true"
-        android:alpha=".25"
-        android:contentDescription="@string/logo"/>
 
 </RelativeLayout>
