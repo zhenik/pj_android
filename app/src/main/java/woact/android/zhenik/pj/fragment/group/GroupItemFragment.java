@@ -99,9 +99,9 @@ public class GroupItemFragment extends Fragment {
             case R.id.action_loan:
                 loanMoney(ApplicationInfo.USER_IN_SYSTEM_ID, group.getId());
                 break;
-//            case R.id.action_pay_back:
-//                payBack(ApplicationInfo.USER_IN_SYSTEM_ID, group.getId());
-//                break;
+            case R.id.action_pay_back:
+                payBack(ApplicationInfo.USER_IN_SYSTEM_ID, group.getId());
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -464,6 +464,98 @@ public class GroupItemFragment extends Fragment {
                 }
                 else
                     Toasty.error(getContext(), "Loan is empty", Toast.LENGTH_SHORT).show();
+                m_Text="";
+                updateAll();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
+
+    public void payBack(final long userId, final long groupId){
+        // validation. Does user wants to pay more than loan
+        dept = userGroupDao.getUserLoan(userId, groupId);
+        if (dept<1.0){
+            Toasty.info(getContext(), "No loans", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("How much money do you want to pay back?");
+        View viewInflated = LayoutInflater.from(getContext())
+                .inflate(R.layout.popup_input_investment, (ViewGroup) getView(), false);
+        final EditText input = (EditText) viewInflated.findViewById(R.id.input1);
+        builder.setView(viewInflated);
+
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("PAYBACK: ", "input: "+input.getText().toString());
+//                m_Text = input.getText().toString();
+                m_Text = input.getText().toString();
+                if (!TextUtils.isEmpty(m_Text)) {
+                    Double payBack=null;
+                    try{
+                        payBack=Double.parseDouble(m_Text);
+                    }
+                    catch (Exception e){}
+                    // validation.
+                    if (payBack==null){
+                        Toasty.error(getContext(), "Cant payback", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    // validation. Does user has enough money
+                    double userMoney = userGroupDao.getUserDao().getMoney(userId);
+                    if (userMoney<payBack){
+                        Log.d("PAYBACK: ", "userMoney: "+userMoney);
+                        Log.d("PAYBACK: ", "payBack: "+payBack);
+                        Toasty.error(getContext(), "Not enough money "+payBack, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    // validation. Check if payBack more than user has to pay
+                    if (payBack>dept){
+                        Toasty.error(getContext(), "It is too much money bro, we need only "+dept, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    /**
+                     * All DB INTERACTIONS
+                     * 1. User money=       -payback
+                     * 2. User loan=        loan - payback
+                     * 3. Group available=  +payback
+                     * */
+
+                    // 1
+                    Log.d("PAYBACK: ", "1-----------------------------");
+                    double userOldMoney = userGroupDao.getUserDao().getMoney(userId);
+                    userGroupDao.getUserDao().setMoney(userId, userOldMoney-payBack);
+                    double userNewMoney = userGroupDao.getUserDao().getMoney(userId);
+                    Log.d("PAYBACK: ", "userOldMoney: "+userOldMoney);
+                    Log.d("PAYBACK: ", "userNewMoney: "+userNewMoney);
+
+                    // 2
+                    Log.d("PAYBACK: ", "2-----------------------------");
+                    double userLoanOld = userGroupDao.getUserLoan(userId,groupId);
+                    userGroupDao.setUserLoan(userId,groupId,userLoanOld-payBack);
+                    double userLoanNew = userGroupDao.getUserLoan(userId,groupId);
+                    Log.d("PAYBACK: ", "userLoanOld: "+userLoanOld);
+                    Log.d("PAYBACK: ", "userLoanNew: "+userLoanNew);
+
+                    // 3
+                    Log.d("PAYBACK: ", "3-----------------------------");
+                    double groupAvailableOld = userGroupDao.getGroupDao().getAvailableMoney(groupId);
+                    userGroupDao.getGroupDao().updateAvailableMoney(groupId, groupAvailableOld+payBack);
+                    double groupAvailableNew = userGroupDao.getGroupDao().getAvailableMoney(groupId);
+                    Log.d("PAYBACK: ", "groupAvailableOld: "+groupAvailableOld);
+                    Log.d("PAYBACK: ", "groupAvailableNew: "+groupAvailableNew);
+                }
+                else
+                    Toasty.error(getContext(), "Pay back is empty", Toast.LENGTH_SHORT).show();
                 m_Text="";
                 updateAll();
                 dialog.dismiss();
