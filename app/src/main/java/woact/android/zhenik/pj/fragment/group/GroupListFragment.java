@@ -1,6 +1,5 @@
 package woact.android.zhenik.pj.fragment.group;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -69,7 +68,7 @@ public class GroupListFragment extends Fragment {
     }
 
     //    @Override
-//    public boolean onMenuItemSelected(int featureId, MenuItem item){
+//    public boolean onMenuItemSelected(int featureId, MenuItem item_friend){
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId()==R.id.action_add){
             Log.d("SPECIAL", "I AM HERE");
@@ -119,7 +118,7 @@ public class GroupListFragment extends Fragment {
     }
     private void initAdapters(){
         List<Group> dummyGroupsName = userGroupDao.getGroupsOfUser(ApplicationInfo.USER_IN_SYSTEM_ID);
-        groupCustomAdapter = new GroupCustomAdapter(getContext(), R.layout.item, dummyGroupsName);
+        groupCustomAdapter = new GroupCustomAdapter(getContext(), R.layout.item_friend, dummyGroupsName);
         groupsListView.setAdapter(groupCustomAdapter);
         initListViewListener();
     }
