@@ -1,13 +1,20 @@
 package woact.android.zhenik.pj.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import woact.android.zhenik.pj.model.Group;
+import woact.android.zhenik.pj.model.User;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     // Logcat tag
-    private static final String TAG = "# DatabaseHelper:> ";
+    private static final String TAG = "DatabaseHelper:> ";
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
@@ -130,7 +137,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("PRAGMA foreign_keys=ON;");
         }
     }
-
-
 
 }
