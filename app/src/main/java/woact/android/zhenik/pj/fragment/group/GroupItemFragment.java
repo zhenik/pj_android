@@ -88,10 +88,7 @@ public class GroupItemFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_back:
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction transaction = fm.beginTransaction();
-                transaction.replace(R.id.content, new GroupListFragment(), GroupListFragment.TAG);
-                transaction.commit();
+                goToGroupList();
                 break;
             case R.id.action_invest:
                 investMoney(ApplicationInfo.USER_IN_SYSTEM_ID, group.getId());
@@ -102,10 +99,20 @@ public class GroupItemFragment extends Fragment {
             case R.id.action_pay_back:
                 payBack(ApplicationInfo.USER_IN_SYSTEM_ID, group.getId());
                 break;
+            case R.id.action_withdraw:
+                withdraw(user.getId(),group.getId());
+//                goToGroupList();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void goToGroupList(){
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.content, new GroupListFragment(), GroupListFragment.TAG);
+        transaction.commit();
+    }
 
     @Override
     public void onResume() {
@@ -569,4 +576,75 @@ public class GroupItemFragment extends Fragment {
         });
         builder.show();
     }
+
+    public void withdraw(long userId, long groupId){
+
+        //1 validation. Does user has loan
+        dept = userGroupDao.getUserLoan(userId, groupId);
+        if (dept>1.0){
+            Toasty.info(getContext(), "You have loan you can not leave group", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //2 validation. Does group has enough money to withdraw
+        Double totalMoney = userGroupDao.getGroupDao().getTotalMoney(groupId);
+        Double investment = userGroupDao.getUserInvestment(userId,groupId);
+        Double allInvestments = userGroupDao.getAllInvestmentsInGroup(groupId);
+        Double income = investment*totalMoney/allInvestments-investment;
+        Double userMoneyFromGroup = investment+income;
+        Double groupAvailable = userGroupDao.getGroupDao().getAvailableMoney(groupId);
+        Log.d("WITHDRAW>", "_________________________");
+        Log.d("WITHDRAW>", "investment: "+investment);
+        Log.d("WITHDRAW>", "allInvestments: "+allInvestments);
+        Log.d("WITHDRAW>", "income: "+income);
+        Log.d("WITHDRAW>", "userMoneyFromGroup: "+userMoneyFromGroup);
+        Log.d("WITHDRAW>", "groupAvailable"+groupAvailable);
+        if (userMoneyFromGroup>groupAvailable){
+            Toasty.info(getContext(), "Group has no available money to withdraw "+userMoneyFromGroup, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        /**
+         * All DB INTERACTIONS
+         * 1. User money=               +investment +income
+         * 2. Group totalMoney=         -investment -income
+         * 3. Group availableMoney=     -investment -income
+         * 4. UserGroup delete raw in db
+         * */
+
+        // 1
+        double uMoneyOld = userGroupDao.getUserDao().getMoney(userId);
+        userGroupDao.getUserDao().setMoney(userId, uMoneyOld+userMoneyFromGroup);
+        double uNewMoney = userGroupDao.getUserDao().getMoney(userId);
+        Log.d("WITHDRAW>", "1_________________________");
+        Log.d("WITHDRAW>", "uMoneyOld: "+uMoneyOld);
+        Log.d("WITHDRAW>", "userMoneyFromGroup: "+userMoneyFromGroup);
+        Log.d("WITHDRAW>", "uNewMoney: "+uNewMoney);
+
+        // 2
+        double gTotalMoneyOld = userGroupDao.getGroupDao().getTotalMoney(groupId);
+        userGroupDao.getGroupDao().updateTotalMoney(groupId, gTotalMoneyOld-userMoneyFromGroup);
+        double gTotalMoneyNew = userGroupDao.getGroupDao().getTotalMoney(groupId);
+        Log.d("WITHDRAW>", "2_________________________");
+        Log.d("WITHDRAW>", "gTotalMoneyOld: "+gTotalMoneyOld);
+        Log.d("WITHDRAW>", "gTotalMoneyNew: "+gTotalMoneyNew);
+
+        // 3
+        double gAvailableMoneyOld = userGroupDao.getGroupDao().getAvailableMoney(groupId);
+        userGroupDao.getGroupDao().updateAvailableMoney(groupId, gAvailableMoneyOld-userMoneyFromGroup);
+        double gAvailableMoneyNew = userGroupDao.getGroupDao().getAvailableMoney(groupId);
+        Log.d("WITHDRAW>", "3_________________________");
+        Log.d("WITHDRAW>", "gAvailableMoneyOld: "+gAvailableMoneyOld);
+        Log.d("WITHDRAW>", "gAvailableMoneyNew: "+gAvailableMoneyNew);
+
+        // 4
+        int rawDeleted = userGroupDao.deleteRaw(userId,groupId);
+        Log.d("WITHDRAW>", "4_________________________");
+        Log.d("WITHDRAW>", "rawDeleted: "+rawDeleted);
+
+        Toasty.success(getContext(), "Withdraw all your money bro", Toast.LENGTH_SHORT).show();
+        goToGroupList();
+    }
+
+
+
 }
