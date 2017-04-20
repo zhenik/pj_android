@@ -59,6 +59,7 @@ public class GroupItemFragment extends Fragment {
     private PieChart chartTotalAvailable;
     // Features
     private String m_Text;
+    private Double dept;
 
     public static GroupItemFragment newInstance(Group group) {
         GroupItemFragment groupItemFragment = new GroupItemFragment();
@@ -95,6 +96,12 @@ public class GroupItemFragment extends Fragment {
             case R.id.action_invest:
                 investMoney(ApplicationInfo.USER_IN_SYSTEM_ID, group.getId());
                 break;
+            case R.id.action_loan:
+                loanMoney(ApplicationInfo.USER_IN_SYSTEM_ID, group.getId());
+                break;
+//            case R.id.action_pay_back:
+//                payBack(ApplicationInfo.USER_IN_SYSTEM_ID, group.getId());
+//                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -103,7 +110,6 @@ public class GroupItemFragment extends Fragment {
     @Override
     public void onResume() {
         // update user
-
         initTextViews();
         fetch_update_UserGroupInvestmentLoanInfo();
         initTabs(view);
@@ -113,6 +119,7 @@ public class GroupItemFragment extends Fragment {
         super.onResume();
     }
     public void updateAll(){
+
         group = userGroupDao.getGroupDao().getGroup(group.getId());
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -349,7 +356,7 @@ public class GroupItemFragment extends Fragment {
                     double alreadyInvested = userGroupDao.getUserInvestment(userId, groupId);
                     long raws = userGroupDao.setUserInvestment(userId,groupId,investment+alreadyInvested);
                     double oldMoney=userGroupDao.getUserDao().getMoney(user.getId());
-                    userGroupDao.getUserDao().updateMoney(user.getId(), oldMoney-investment);
+                    userGroupDao.getUserDao().setMoney(user.getId(), oldMoney-investment);
 
                     double oldTotalMoney = userGroupDao.getGroupDao().getTotalMoney(group.getId());
                     userGroupDao.getGroupDao().updateTotalMoney(group.getId(), oldTotalMoney+investment);
@@ -361,6 +368,102 @@ public class GroupItemFragment extends Fragment {
                 }
                 else
                     Toasty.error(getContext(), "Investment is empty", Toast.LENGTH_SHORT).show();
+                m_Text="";
+                updateAll();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
+
+    private void loanMoney(final long userId, final long groupId){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("How much money do you want to loan?");
+        View viewInflated = LayoutInflater.from(getContext())
+                .inflate(R.layout.popup_input_investment, (ViewGroup) getView(), false);
+        final EditText input = (EditText) viewInflated.findViewById(R.id.input1);
+        builder.setView(viewInflated);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("LOAN: ", "input: "+input.getText().toString());
+//                m_Text = input.getText().toString();
+                m_Text = input.getText().toString();
+                if (!TextUtils.isEmpty(m_Text)) {
+                    Double loan=null;
+                    try{
+                        loan=Double.parseDouble(m_Text);
+                        Log.d("LOAN: ", "loan: "+loan);
+                    }
+                    catch (Exception e){}
+
+                    if (loan==null){
+                        Toasty.error(getContext(), "Cant loan", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    // validation group
+                    if (userGroupDao.getGroupDao().getAvailableMoney(groupId)<loan){
+                        Toasty.error(getContext(), "Group has not so much available money "+loan, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    /**
+                     * All DB INTERACTIONS
+                     * 1. User money= +money
+                     * 2. User loan= +( money + %*loan)
+                     * 3. Group total= +(%)
+                     * 4. Group available= total - loan
+                     * */
+
+                    // 1
+                    Log.d("LOAN: ", "1-----------------------------");
+                    double userMoneyOld = userGroupDao.getUserDao().getUserById(userId).getMoney();
+                    long rowsAffected = userGroupDao.getUserDao().
+                            setMoney(userId, userMoneyOld+loan);
+                    double userMoneyNew = userGroupDao.getUserDao().getUserById(userId).getMoney();
+                    Log.d("LOAN: ", "rowsAffected: "+rowsAffected);
+                    Log.d("LOAN: ", "userMoneyNew: "+userMoneyNew);
+
+                    // 2
+                    Log.d("LOAN: ", "2-----------------------------");
+                    double userLoanOld = userGroupDao.getUserLoan(userId, groupId);
+                    double newLoan = userLoanOld+(loan+(loan*ApplicationInfo.LOAN_PERCENT));
+                    userGroupDao
+                            .setUserLoan(
+                                    ApplicationInfo.USER_IN_SYSTEM_ID,
+                                    group.getId(),
+                                    newLoan
+                                    );
+                    double userLoanNew = userGroupDao.getUserLoan(userId, groupId);
+                    Log.d("LOAN: ", "userLoanOld: "+userLoanOld);
+                    Log.d("LOAN: ", "newLoan: "+newLoan);
+                    Log.d("LOAN: ", "userLoanNew: "+userLoanNew);
+
+                    // 3
+                    Log.d("LOAN: ", "3-----------------------------");
+                    double groupTotalOld = userGroupDao.getGroupDao().getTotalMoney(groupId);
+                    userGroupDao.getGroupDao().updateTotalMoney(groupId,groupTotalOld + (loan*ApplicationInfo.LOAN_PERCENT));
+                    double groupTotalNew = userGroupDao.getGroupDao().getTotalMoney(groupId);
+                    Log.d("LOAN: ", "groupTotalOld: "+groupTotalOld);
+                    Log.d("LOAN: ", "groupTotalNew: "+groupTotalNew);
+
+                    // 4
+                    Log.d("LOAN: ", "4-----------------------------");
+                    double groupAvailableOld = userGroupDao.getGroupDao().getAvailableMoney(groupId);
+//                    double groupTotal = userGroupDao.getGroupDao().getTotalMoney(groupId);
+                    userGroupDao.getGroupDao().updateAvailableMoney(groupId, groupAvailableOld-loan);
+                    double groupAvailableNew = userGroupDao.getGroupDao().getAvailableMoney(groupId);
+                    Log.d("LOAN: ", "groupAvailableOld: "+groupAvailableOld);
+                    Log.d("LOAN: ", "groupAvailableNew: "+groupAvailableNew);
+                }
+                else
+                    Toasty.error(getContext(), "Loan is empty", Toast.LENGTH_SHORT).show();
                 m_Text="";
                 updateAll();
                 dialog.dismiss();
