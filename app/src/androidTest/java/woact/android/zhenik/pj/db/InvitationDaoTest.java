@@ -111,6 +111,23 @@ public class InvitationDaoTest {
         assertTrue(inviteId2!=-1);
     }
     @Test
+    public void checkGetInvitationById(){
+        // Arrange
+        long inviteId1 = invitationDao.createInvitation(userId1,userId2,groupId1);
+
+        // Act
+        Invitation invitation = invitationDao.getInvitationById(inviteId1);
+
+        // Assert
+        assertTrue(invitation.getId()!=-1);
+        assertTrue(invitation.getId()!=-0);
+        assertEquals(userId1, invitation.getSendById());
+        assertEquals(userId2, invitation.getReceivedById());
+        assertEquals(groupId1, invitation.getGroupId());
+
+    }
+
+    @Test
     public void checkGetInvitationList_1g(){
         // Arrange
         invitationDao.createInvitation(userId1,userId2,groupId1);
