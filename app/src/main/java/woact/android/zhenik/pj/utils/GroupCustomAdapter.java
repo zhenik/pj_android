@@ -36,10 +36,10 @@ public class GroupCustomAdapter extends ArrayAdapter<Group> {
         }
         Group group = getGroup(position);
         if (group != null) {
-            TextView tt1 = (TextView) v.findViewById(R.id.item_group_id);
+//            TextView tt1 = (TextView) v.findViewById(R.id.item_group_id);
             TextView tt2 = (TextView) v.findViewById(R.id.item_group_name);
 
-            if (tt1 != null) {tt1.setText(String.valueOf(group.getId())); }
+//            if (tt1 != null) {tt1.setText(String.valueOf(group.getId())); }
             if (tt2 != null) {tt2.setText(group.getGroupName());}
         }
         return v;
