@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onResume() {
-        getSupportActionBar().setTitle("DNB TEEM");
+        getSupportActionBar().setTitle("");
         super.onResume();
     }
 
