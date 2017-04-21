@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import woact.android.zhenik.pj.model.User;
+import woact.android.zhenik.pj.utils.ApplicationInfo;
 
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_FULL_NAME;
 import static woact.android.zhenik.pj.db.DatabaseHelper.KEY_ID;
@@ -114,6 +115,7 @@ public class UserDao {
 //        Log.d(TAG, "GET_SCORE cursor count: "+cursor.getColumnName(0));
 //        Log.d(TAG, "GET_SCORE cursor count: "+cursor.getLong(0));
         Long score =  cursor.getLong(0);
+
         return score;
     }
 
@@ -223,5 +225,13 @@ public class UserDao {
                              cursor.getDouble(4),
                              cursor.getLong(5));
         return user;
+    }
+
+    // money can be = loan, investment or payback
+    public long scoreBonus(long userId, double money){
+        long oldScore = getScore(userId);
+        long newScore = (long)(oldScore+(money * ApplicationInfo.SCORE_BONUS_PERCENT));
+        long rowsAffected = updateScore(userId, newScore);
+        return rowsAffected;
     }
 }

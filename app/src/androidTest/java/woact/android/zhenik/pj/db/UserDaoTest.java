@@ -271,5 +271,24 @@ public class UserDaoTest {
         assertNull(money);
     }
 
+    @Test
+    public void checkScoreBonus(){
+        // Arrange
+        long id = userDao.registerUser(new User("Oda", "p1", "Oda H."));
+
+        // Act
+        long scoreBefore = userDao.getScore(id);
+        long rowsAffected = userDao.scoreBonus(id, 5000);
+        long scoreAfter1 = userDao.getScore(id);
+        userDao.scoreBonus(id, 1000);
+        long scoreAfter2 = userDao.getScore(id);
+        // Assert
+        assertEquals(0, scoreBefore);
+        assertEquals(1, rowsAffected);
+        assertEquals(500, scoreAfter1);
+        assertEquals(600, scoreAfter2);
+
+    }
+
 
 }
