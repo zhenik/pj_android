@@ -10,9 +10,14 @@
 
     <style name="text_profile">
         <item name="android:fontFamily">sans-serif-condensed</item>
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@color/profile_roof</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAlignment">center</item>
     </style>
-
+    <style name="text_info">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/my_white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
