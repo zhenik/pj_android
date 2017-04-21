@@ -35,7 +35,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        getSupportActionBar().setTitle("DNB REGISTRATION");
+        getSupportActionBar().setTitle("REGISTRATION");
         super.onResume();
     }
     private void initInputs(){
