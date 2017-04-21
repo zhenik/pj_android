@@ -1,10 +1,14 @@
 package woact.android.zhenik.pj;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -46,8 +50,35 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        navigation.setBackground(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark)));
+        navigation.setItemIconTintList(getMyColorStateList());
+        navigation.setItemTextColor(getMyColorStateList());
         fm=getSupportFragmentManager();
         initProfileFragment();
+    }
+
+    private ColorStateList getMyColorStateList(){
+        int[][] states = new int[][] {
+//                new int[] { android.R.attr.state_enabled}, // enabled
+//                new int[] {-android.R.attr.state_enabled}, // disabled
+                new int[] {android.R.attr.state_checked},   // checked
+                new int[] {-android.R.attr.state_checked},  // unchecked
+//                new int[] { android.R.attr.state_pressed}   // pressed
+        };
+
+        int[] colors = new int[] {
+//                Color.GREEN,
+                Color.WHITE,
+                Color.GRAY
+//                Color.BLACK,
+//                Color.RED
+
+
+        };
+
+        ColorStateList myList = new ColorStateList(states, colors);
+        return myList;
     }
 
     private void initProfileFragment(){
