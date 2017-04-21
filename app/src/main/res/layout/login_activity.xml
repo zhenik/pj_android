@@ -73,10 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_background"
-
-            android:text="@string/registration"
-
-            android:textColor="@android:color/background_light"/>
+            android:textColor="@android:color/background_light"
+            android:text="@string/registration"/>
     </LinearLayout>
 
 </RelativeLayout>
