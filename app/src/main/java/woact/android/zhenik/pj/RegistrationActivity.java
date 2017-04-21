@@ -55,6 +55,9 @@ public class RegistrationActivity extends AppCompatActivity {
                     String fullN = fullName.getText().toString().trim();
                     long id = userDao.registerUser(new User(userN, passN, fullN));
 
+                    // score feature + 1000 score for registration
+                    userDao.scoreBonus(id, 10000);
+
                     if (id == -1)
                         Toasty.error(getApplicationContext(), "user with name "+userN+ " already exists", Toast.LENGTH_SHORT).show();
                     else{

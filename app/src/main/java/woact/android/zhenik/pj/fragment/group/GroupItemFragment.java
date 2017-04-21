@@ -380,6 +380,9 @@ public class GroupItemFragment extends Fragment {
                     double oldAvailableMoney = userGroupDao.getGroupDao().getAvailableMoney(group.getId());
                     userGroupDao.getGroupDao().updateAvailableMoney(group.getId(), oldAvailableMoney+investment);
 
+                    // score bonus
+                    userGroupDao.getUserDao().scoreBonus(userId,investment);
+
                     Log.d("INVEST: ", "raws: "+raws);
                 }
                 else
@@ -477,6 +480,9 @@ public class GroupItemFragment extends Fragment {
                     double groupAvailableNew = userGroupDao.getGroupDao().getAvailableMoney(groupId);
                     Log.d("LOAN: ", "groupAvailableOld: "+groupAvailableOld);
                     Log.d("LOAN: ", "groupAvailableNew: "+groupAvailableNew);
+
+                    // score bonus
+                    userGroupDao.getUserDao().scoreBonus(userId,loan);
                 }
                 else
                     Toasty.error(getContext(), "Loan is empty", Toast.LENGTH_SHORT).show();
@@ -569,6 +575,9 @@ public class GroupItemFragment extends Fragment {
                     double groupAvailableNew = userGroupDao.getGroupDao().getAvailableMoney(groupId);
                     Log.d("PAYBACK: ", "groupAvailableOld: "+groupAvailableOld);
                     Log.d("PAYBACK: ", "groupAvailableNew: "+groupAvailableNew);
+
+                    // score bonus
+                    userGroupDao.getUserDao().scoreBonus(userId,payBack);
                 }
                 else
                     Toasty.error(getContext(), "Pay back is empty", Toast.LENGTH_SHORT).show();
