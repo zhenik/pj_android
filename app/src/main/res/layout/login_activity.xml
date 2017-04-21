@@ -6,7 +6,9 @@
     android:id="@+id/login_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:backgroundTintMode="src_over"
+    android:background="@drawable/background"
+    >
     <!--android:background="16dp"-->
     <!--android:paddingBottom="16dp"-->
     <!--android:paddingLeft="16dp"-->
@@ -20,9 +22,9 @@
         android:layout_height="110dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp"
         android:contentDescription="@string/logo"
-        app:srcCompat="@drawable/logo"
-        />
+        app:srcCompat="@drawable/logo"/>
 
     <LinearLayout
         android:id="@+id/login_form"
@@ -38,9 +40,10 @@
             android:id="@+id/login_userName_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/input_background"
             android:hint="@string/username"
+            android:textColorHint="@color/my_white"
             android:inputType="text"
+            android:textColor="@color/my_white"
             android:padding="15dp"/>
 
         <EditText
@@ -48,9 +51,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/input_background"
             android:hint="@string/password"
             android:inputType="textPassword"
+            android:textColorHint="@color/my_white"
+            android:textColor="@color/my_white"
             android:padding="15dp"/>
 
         <Button
@@ -60,6 +64,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/btn_background"
             android:text="@string/login"
+            android:alpha="0.7"
             android:textColor="@android:color/background_light"/>
 
         <Button
@@ -68,7 +73,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_background"
+            android:alpha="0.7"
             android:text="@string/registration"
+
             android:textColor="@android:color/background_light"/>
     </LinearLayout>
 
