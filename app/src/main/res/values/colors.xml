@@ -5,9 +5,14 @@
     <color name="profile_body">#dbdce0</color>
     <color name="profile_icon">#00ddff</color>
 
-    <color name="colorPrimaryDark">#117cc9</color>
-    <color name="colorAccent">#ffcb2b</color>
+    <color name="colorPrimaryDark">#005058</color>
+    <!--<color name="colorPrimaryDark">#117cc9</color>-->
+    <color name="colorAccent">#dbdce0</color>
+    <color name="colorAccent1">#ffcb2b</color>
     <color name="red">#c42d60</color>
     <color name="black">#000000</color>
+    <color name="btn_color">#005058</color>
+    <color name="my_white">#ffffff</color>
+
 
 </resources>
