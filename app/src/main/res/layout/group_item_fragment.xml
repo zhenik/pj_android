@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:tint="@color/colorPrimary"
-                app:srcCompat="@drawable/ic_dollar"/>
+                app:srcCompat="@mipmap/ic_menu_white_24dp"/>
 
             <TextView
                 android:id="@+id/group_item_investments"
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:tint="@color/colorPrimary"
-                app:srcCompat="@drawable/ic_dollar"/>
+                app:srcCompat="@mipmap/ic_menu_white_24dp"/>
 
             <TextView
                 android:id="@+id/group_item_loan"
