@@ -3,11 +3,13 @@ package woact.android.zhenik.pj.fragment.profile;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -106,7 +108,7 @@ public class ProfileFragment extends Fragment {
         if (item.getItemId()==R.id.action_logout){
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle("Do you want logout?");
-            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Log.d("USER_IN_SYSTEM: ", ApplicationInfo.USER_IN_SYSTEM_ID+" <-here");
@@ -116,13 +118,15 @@ public class ProfileFragment extends Fragment {
                     dialog.dismiss();
                 }
             });
-            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
                 }
             });
-            builder.show();
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+//            builder.show();
         }
 
         if (item.getItemId()==R.id.action_invitation_list){
