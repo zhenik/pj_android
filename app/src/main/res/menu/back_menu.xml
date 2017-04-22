@@ -2,16 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/action_back"
-        android:icon="@mipmap/ic_arrow_back_white_24dp"
-        android:title="Back"
-        app:showAsAction="always"/>
+    <!--<item-->
+        <!--android:id="@+id/action_back"-->
+        <!--android:icon="@mipmap/ic_arrow_back_white_24dp"-->
+        <!--android:title="Back"-->
+        <!--app:showAsAction="always"/>-->
     <item
         android:id="@+id/action_user_actions"
         android:icon="@mipmap/ic_menu_white_24dp"
         android:title="Actions"
-        app:showAsAction="ifRoom">
+        app:showAsAction="always">
 
         <item
             android:id="@+id/action_invest"
@@ -27,7 +27,7 @@
             />
         <item
             android:id="@+id/action_withdraw"
-            android:title="WITHDRAW"
+            android:title="LEAVE GROUP"
             />
         <item
             android:id="@+id/action_invite"
