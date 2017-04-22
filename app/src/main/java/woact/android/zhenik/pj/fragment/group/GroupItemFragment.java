@@ -95,9 +95,9 @@ public class GroupItemFragment extends Fragment {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_back:
-                goToGroupList();
-                break;
+//            case R.id.action_back:
+//                goToGroupList();
+//                break;
             case R.id.action_invest:
                 investMoney(ApplicationInfo.USER_IN_SYSTEM_ID, group.getId());
                 break;
