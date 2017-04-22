@@ -93,6 +93,13 @@ public class ProfileFragment extends Fragment {
         // set default pic TODO: development mode (hardcoded)
         if ("a".equals(user.getUserName())) mImg.setImageResource(R.drawable.changiz);
         if ("b".equals(user.getUserName())) mImg.setImageResource(R.drawable.oda);
+
+        if ("c".equals(user.getUserName())) mImg.setImageResource(R.drawable.clem);
+        if ("e".equals(user.getUserName())) mImg.setImageResource(R.drawable.elvira);
+        if ("i".equals(user.getUserName())) mImg.setImageResource(R.drawable.ingrid);
+        if ("s".equals(user.getUserName())) mImg.setImageResource(R.drawable.silje);
+        if ("r".equals(user.getUserName())) mImg.setImageResource(R.drawable.rob);
+        if ("n".equals(user.getUserName())) mImg.setImageResource(R.drawable.nik);
     }
 
     @Override

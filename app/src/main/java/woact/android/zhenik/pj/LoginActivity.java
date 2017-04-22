@@ -64,8 +64,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     private void devModeDummyData(){
         DummyDataFactory ddF = new DummyDataFactory();
-        ddF.addUserDevMode(new User("a", "a", "Changiz Hosseini", 50000, 150));
+        ddF.addUserDevMode(new User("a", "a", "Changiz Hosseini", 5, 150));
         ddF.addUserDevMode(new User("b", "b", "Oda Humlung", 65000, 250));
+
+        ddF.addUserDevMode(new User("c", "c", "Clement Marescaux", 35000, 50));
+        ddF.addUserDevMode(new User("e", "e", "Elvira Semenova", 65000, 250));
+        ddF.addUserDevMode(new User("i", "i", "Ingrid Kjensli Moe", 65000, 150));
+        ddF.addUserDevMode(new User("s", "s", "Silje Lilleeng Johnsen", 65000, 450));
+        ddF.addUserDevMode(new User("r", "r", "Robert Eikeland", 15000, 10));
+        ddF.addUserDevMode(new User("n", "n", "Hustle Man", 100000, 1000));
+
 
         ddF.addGroupDevMode(new Group(1, 13000, 13000, "Friends"));
         ddF.addGroupDevMode(new Group(2,22000,20000, "Family"));
