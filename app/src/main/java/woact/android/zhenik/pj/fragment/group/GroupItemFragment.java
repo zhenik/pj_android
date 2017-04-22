@@ -212,6 +212,12 @@ public class GroupItemFragment extends Fragment {
         initAdapter();
 
 
+        // set text-color of tabs to white
+//        for(int i=0;i<tabHost.getTabWidget().getChildCount();i++) {
+//            TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+//            tv.setTextColor(Color.parseColor("#ffffff"));
+//        }
+
 //        // указываем id компонента из FrameLayout, он и станет содержимым
         //// -------!!!!!!!!!!!!
         //         добавляем в корневой элемент
