@@ -7,16 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import woact.android.zhenik.pj.MainActivity;
 import woact.android.zhenik.pj.R;
 import woact.android.zhenik.pj.model.User;
-
-/**
- * Created by NIK on 16/04/2017.
- */
 
 public class ShopFragment extends Fragment {
     public static final String TAG = "###ShopFragment:> ";
@@ -37,7 +31,6 @@ public class ShopFragment extends Fragment {
         Log.i(TAG, "onCreateView");
         this.view=inflater.inflate(R.layout.shop_fragment, null);
         setHasOptionsMenu(true);
-
         return view;
     }
 
