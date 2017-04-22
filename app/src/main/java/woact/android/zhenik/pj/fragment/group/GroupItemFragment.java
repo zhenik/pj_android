@@ -29,6 +29,8 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +56,7 @@ public class GroupItemFragment extends Fragment {
     private User user;
     private TextView investment;
     private TextView loan;
+    private TextView urMoney;
     // list of users
     private ArrayAdapter<String> adapter;
     private ListView listOfUsers;
@@ -149,17 +152,21 @@ public class GroupItemFragment extends Fragment {
     private void fetch_update_UserGroupInvestmentLoanInfo(){
         group=userGroupDao.getGroupDao().getGroup(group.getId());
         user=userGroupDao.getUserDao().getUserById(ApplicationInfo.USER_IN_SYSTEM_ID);
-        String money = user.getMoney()+"";
+
+
         ((MainActivity) getActivity())
                 .getSupportActionBar()
-                .setTitle(group==null?"Unknown group":group.getGroupName() +" | "+money);
+                .setTitle(group==null?"Unknown group":group.getGroupName());
         investment.setText(String.valueOf(userGroupDao.getUserInvestment(user.getId(),group.getId())));
         loan.setText(String.valueOf(userGroupDao.getUserLoan(user.getId(), group.getId())));
+        urMoney.setText(String.valueOf(userGroupDao.getUserDao().getMoney(user.getId())));
+
     }
 
     private void initTextViews(){
         investment=(TextView)view.findViewById(R.id.group_item_investments);
         loan=(TextView)view.findViewById(R.id.group_item_loan);
+        urMoney=(TextView)view.findViewById(R.id.group_item_urmoney);
     }
 
     // use in initTabs()
@@ -171,6 +178,7 @@ public class GroupItemFragment extends Fragment {
         listOfUsers=(ListView) view.findViewById(R.id.group_item_collaborators);
         adapter=new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, userNamesInGroup);
         listOfUsers.setAdapter(adapter);
+
     }
     private void initCharts(){
         chartInvestLoan=(PieChart)view.findViewById(R.id.pie_invest_loan);
@@ -229,11 +237,12 @@ public class GroupItemFragment extends Fragment {
 //        tabHost.setCurrentTabByTag("tag2");
 
         // обработчик переключения вкладок
-        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            public void onTabChanged(String tabId) {
-                Toast.makeText(getContext(), "tabId = " + tabId, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+//            public void onTabChanged(String tabId) {
+//                Toast.makeText(getContext(), "tabId = " + tabId, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
     }
 
 
@@ -245,7 +254,7 @@ public class GroupItemFragment extends Fragment {
         chart.getDescription().setEnabled(false);
         chart.setExtraOffsets(5, 10, 5, 5);
 //        chart.setCenterText("Pot: available");
-        chart.setEntryLabelColor(Color.BLACK);
+        chart.setEntryLabelColor(Color.WHITE);
 
         List<PieEntry> entries = new ArrayList<PieEntry>();
         float totalMoney = userGroupDao.getGroupDao().getTotalMoney(group.getId()).floatValue();
@@ -267,21 +276,24 @@ public class GroupItemFragment extends Fragment {
 //        if (pot.getUserLoan(user.getName())>0)
 //            entries.add(new PieEntry(pot.getUserLoan(user.getName()), "Your loan"));
 
-        PieDataSet dataSet = new PieDataSet(entries, ""); // add entries to dataset
-        dataSet.setColor(Color.BLACK);
+        PieDataSet dataSet = new PieDataSet(entries, " | Total money = "+userGroupDao.getGroupDao().getTotalMoney(group.getId())); // add entries to dataset
+        chart.getLegend().setTextColor(Color.WHITE);
+
+//        dataSet.setColor(Color.WHITE);
         // set colors #1
         ArrayList<Integer> colors = new ArrayList<Integer>();
-        colors.add(0xFE45BF55);
-        colors.add(0xFE167F39);
-        colors.add(0xFFFFF5A6);
+        colors.add(0xFE27AE60);
+        colors.add(0xFE52BE80);
+//        colors.add(0xFFff9800);
+        colors.add(0xFFFFC300);
 //        colors.add(0xFF262626);
-        colors.add(ColorTemplate.getHoloBlue());
+//        colors.add(ColorTemplate.getHoloBlue());
         dataSet.setColors(colors);
 
         PieData pieData = new PieData(dataSet);
 //        pieData.setValueFormatter(new PercentFormatter());
         pieData.setValueTextSize(11f);
-        pieData.setValueTextColor(Color.BLACK);
+        pieData.setValueTextColor(Color.WHITE);
         chart.setData(pieData);
         chart.invalidate(); // refresh
     }
@@ -294,7 +306,7 @@ public class GroupItemFragment extends Fragment {
         chart.getDescription().setEnabled(false);
         chart.setExtraOffsets(5, 10, 5, 5);
 //        chart.setCenterText("Pot: available");
-        chart.setEntryLabelColor(Color.BLACK);
+        chart.setEntryLabelColor(Color.WHITE);
 
         List<PieEntry> entries = new ArrayList<PieEntry>();
         // worst crutch EVER !!!
@@ -307,19 +319,20 @@ public class GroupItemFragment extends Fragment {
         entries.add(new PieEntry(totalMoney-availableMoney, "Loaned"));
         entries.add(new PieEntry(availableMoney, "Available"));
 
-        PieDataSet dataSet = new PieDataSet(entries, ""); // add entries to dataset
-        dataSet.setColor(Color.BLACK);
+        PieDataSet dataSet = new PieDataSet(entries, " | Total money = "+userGroupDao.getGroupDao().getTotalMoney(group.getId())); // add entries to dataset
+        chart.getLegend().setTextColor(Color.WHITE);
+        dataSet.setColor(Color.WHITE);
         // set colors #1
         ArrayList<Integer> colors = new ArrayList<Integer>();
-        colors.add(0xFEE5000D);
-        colors.add(0xFE00BF3E);
+        colors.add(0xFEC0392B);
+        colors.add(0xFE1E8449);
         colors.add(ColorTemplate.getHoloBlue());
         dataSet.setColors(colors);
 
         PieData pieData = new PieData(dataSet);
 //        pieData.setValueFormatter(new PercentFormatter());
         pieData.setValueTextSize(11f);
-        pieData.setValueTextColor(Color.BLACK);
+        pieData.setValueTextColor(Color.WHITE);
         chart.setData(pieData);
         chart.invalidate(); // refresh
     }

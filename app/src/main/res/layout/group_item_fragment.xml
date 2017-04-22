@@ -3,11 +3,13 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+    android:background="@drawable/background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -16,23 +18,24 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="investments"
-                android:textAlignment="center"
-                android:textColor="@color/black"/>
-
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/imageYourMoney"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:tint="@color/colorPrimary"
-                app:srcCompat="@mipmap/ic_menu_white_24dp"/>
+                app:srcCompat="@mipmap/ic_attach_money_black_24dp"
+                />
 
             <TextView
-                android:id="@+id/group_item_investments"
+                android:id="@+id/textViewYourMoney"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="your money"
+                android:textAlignment="center"
+                android:textColor="@color/btn_color"/>
+
+            <TextView
+                android:id="@+id/group_item_urmoney"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="invest"
@@ -48,6 +51,45 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:tint="@color/colorPrimary"
+                app:srcCompat="@mipmap/ic_file_download_black_24dp"/>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="investments"
+                android:textAlignment="center"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/group_item_investments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="invest"
+                android:textAlignment="center"
+                android:textColor="@color/my_green"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:tint="@color/colorPrimary"
+                app:srcCompat="@mipmap/ic_file_upload_black_24dp"/>
+
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
@@ -56,20 +98,13 @@
                 android:textAlignment="center"
                 android:textColor="@color/black"/>
 
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:tint="@color/colorPrimary"
-                app:srcCompat="@mipmap/ic_menu_white_24dp"/>
-
             <TextView
                 android:id="@+id/group_item_loan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="loan"
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/profile_roof"
                 android:textSize="20sp"/>
 
         </LinearLayout>
