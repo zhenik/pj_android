@@ -58,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
         initProfileFragment();
     }
 
+
+    // Prohibit pressing back btn
+    @Override
+    public void onBackPressed() {}
+
     private ColorStateList getMyColorStateList(){
         int[][] states = new int[][] {
 //                new int[] { android.R.attr.state_enabled}, // enabled
