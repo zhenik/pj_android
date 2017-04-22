@@ -23,6 +23,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -296,6 +297,7 @@ public class GroupItemFragment extends Fragment {
         pieData.setValueTextColor(Color.WHITE);
         chart.setData(pieData);
         chart.invalidate(); // refresh
+        chart.spin(1500, 0, -360f, Easing.EasingOption.EaseInOutCubic);
     }
 
     private void setPieTotalAvailable(PieChart chart){
