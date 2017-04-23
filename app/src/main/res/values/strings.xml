@@ -3,7 +3,7 @@
     <string name="login">Login</string>
     <string name="registration">Registration</string>
     <string name="password">password</string>
-    <string name="username">username</string>
+    <string name="username">phone number</string>
     <string name="logo">logo</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
