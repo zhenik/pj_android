@@ -64,15 +64,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     private void devModeDummyData(){
         DummyDataFactory ddF = new DummyDataFactory();
-        ddF.addUserDevMode(new User("a", "a", "Changiz Hosseini", 5, 150));
-        ddF.addUserDevMode(new User("b", "b", "Oda Humlung", 65000, 250));
+        ddF.addUserDevMode(new User("1", "1", "Changiz Hosseini", 5, 150));
+        ddF.addUserDevMode(new User("2", "2", "Oda Humlung", 65000, 250));
 
-        ddF.addUserDevMode(new User("c", "c", "Clement Marescaux", 35000, 50));
-        ddF.addUserDevMode(new User("e", "e", "Elvira Semenova", 65000, 250));
-        ddF.addUserDevMode(new User("i", "i", "Ingrid Kjensli Moe", 65000, 150));
-        ddF.addUserDevMode(new User("s", "s", "Silje Lilleeng Johnsen", 65000, 450));
-        ddF.addUserDevMode(new User("r", "r", "Robert Eikeland", 15000, 10));
-        ddF.addUserDevMode(new User("n", "n", "Hustle Man", 100000, 1000));
+        ddF.addUserDevMode(new User("3", "3", "Clement Marescaux", 35000, 50));
+        ddF.addUserDevMode(new User("4", "4", "Elvira Semenova", 65000, 250));
+        ddF.addUserDevMode(new User("5", "5", "Ingrid Kjensli Moe", 65000, 150));
+        ddF.addUserDevMode(new User("6", "6", "Silje Lilleeng Johnsen", 65000, 450));
+        ddF.addUserDevMode(new User("7", "7", "Robert Eikeland", 15000, 10));
+        ddF.addUserDevMode(new User("8", "8", "Hustle Man", 100000, 1000));
 
 
         ddF.addGroupDevMode(new Group(1, 13000, 13000, "Friends"));
@@ -147,11 +147,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             }
             else{
-                Toasty.error(this, "FAILURE - check input data", Toast.LENGTH_SHORT).show();
+                Toasty.error(this, "Phone number or password wrong", Toast.LENGTH_SHORT).show();
             }
         }
         else
-            Toasty.info(this, "Check input - fields can not be empty", Toast.LENGTH_SHORT).show();
+            Toasty.info(this, "Fields can not be empty", Toast.LENGTH_SHORT).show();
     }
 
 

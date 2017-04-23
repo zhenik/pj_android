@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/username"
             android:textColorHint="@color/my_white"
-            android:inputType="text"
+            android:inputType="number"
             android:textColor="@color/my_white"
             android:padding="15dp"/>
 
