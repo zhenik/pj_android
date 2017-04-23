@@ -24,7 +24,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/username"
-            android:inputType="textPersonName"
+            android:inputType="number"
             android:textColor="@color/my_white"
             android:textColorHint="@color/my_white"
             />
@@ -49,6 +49,17 @@
             android:ems="10"
             android:hint="full name"
             android:inputType="textPersonName"
+            android:textColor="@color/my_white"
+            android:textColorHint="@color/my_white"
+            />
+        <EditText
+            android:id="@+id/reg_reference_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="reference (optional)"
+            android:inputType="number"
             android:textColor="@color/my_white"
             android:textColorHint="@color/my_white"
             />

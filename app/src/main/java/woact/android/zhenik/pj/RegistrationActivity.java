@@ -55,16 +55,16 @@ public class RegistrationActivity extends AppCompatActivity {
                     String fullN = fullName.getText().toString().trim();
                     long id = userDao.registerUser(new User(userN, passN, fullN));
 
-                    // score feature + 1000 score for registration
-                    userDao.scoreBonus(id, 10000);
-
                     if (id == -1)
-                        Toasty.error(getApplicationContext(), "user with name "+userN+ " already exists", Toast.LENGTH_SHORT).show();
+                        Toasty.error(getApplicationContext(), "user with phone number "+userN+ " already exists", Toast.LENGTH_SHORT).show();
                     else{
-                        Toasty.success(getApplicationContext(), "user was created", Toast.LENGTH_SHORT).show();
+                        Toasty.success(getApplicationContext(), "user is registered", Toast.LENGTH_SHORT).show();
+                        // score feature + 1000 score for registration
+                        userDao.scoreBonus(id, 10000);
                         Intent redirect = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(redirect);
                     }
+
                 }
             }
         });
@@ -73,7 +73,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private boolean checkFields(){
         if ("".equals(userName.getText().toString()) || "".equals(password.getText().toString()) || "".equals(fullName.getText().toString()))
         {
-            Toasty.info(getApplicationContext(), "All fields are required. Can not be empty", Toast.LENGTH_SHORT).show();
+            Toasty.info(getApplicationContext(), "Field(s) required can not be empty", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
