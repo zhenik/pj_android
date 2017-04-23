@@ -30,7 +30,7 @@
                 android:id="@+id/textViewYourMoney"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="your money"
+                android:text="Money"
                 android:textAlignment="center"
                 android:textColor="@color/btn_color"/>
 
@@ -62,7 +62,7 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="investments"
+                android:text="Investments"
                 android:textAlignment="center"
                 android:textColor="@color/black"/>
 
@@ -94,7 +94,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="loan"
+                android:text="Borrowed"
                 android:textAlignment="center"
                 android:textColor="@color/black"/>
 

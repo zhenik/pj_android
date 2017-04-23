@@ -153,14 +153,12 @@ public class GroupItemFragment extends Fragment {
     private void fetch_update_UserGroupInvestmentLoanInfo(){
         group=userGroupDao.getGroupDao().getGroup(group.getId());
         user=userGroupDao.getUserDao().getUserById(ApplicationInfo.USER_IN_SYSTEM_ID);
-
-
         ((MainActivity) getActivity())
                 .getSupportActionBar()
                 .setTitle(group==null?"Unknown group":group.getGroupName());
-        investment.setText(String.valueOf(userGroupDao.getUserInvestment(user.getId(),group.getId())));
-        loan.setText(String.valueOf(userGroupDao.getUserLoan(user.getId(), group.getId())));
-        urMoney.setText(String.valueOf(userGroupDao.getUserDao().getMoney(user.getId())));
+        investment.setText(String.valueOf(userGroupDao.getUserInvestment(user.getId(),group.getId()).intValue()));
+        loan.setText(String.valueOf(userGroupDao.getUserLoan(user.getId(), group.getId()).intValue()));
+        urMoney.setText(String.valueOf(userGroupDao.getUserDao().getMoney(user.getId()).intValue()));
 
     }
 
@@ -179,7 +177,6 @@ public class GroupItemFragment extends Fragment {
         listOfUsers=(ListView) view.findViewById(R.id.group_item_collaborators);
         adapter=new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, userNamesInGroup);
         listOfUsers.setAdapter(adapter);
-
     }
     private void initCharts(){
         chartInvestLoan=(PieChart)view.findViewById(R.id.pie_invest_loan);
@@ -277,13 +274,13 @@ public class GroupItemFragment extends Fragment {
 //        Log.d("MATH: ", "other:"+other);
 
         entries.add(new PieEntry(investment, "Investments"));
-        entries.add(new PieEntry(income, "Income"));
-        entries.add(new PieEntry(other, "Other"));
+        entries.add(new PieEntry(income, "Interests"));
+        entries.add(new PieEntry(other, "Other investments"));
 //        entries.add(new PieEntry(pot.getTotalLoaned(), "Loaned"));
 //        if (pot.getUserLoan(user.getName())>0)
 //            entries.add(new PieEntry(pot.getUserLoan(user.getName()), "Your loan"));
 
-        PieDataSet dataSet = new PieDataSet(entries, " | Total money = "+userGroupDao.getGroupDao().getTotalMoney(group.getId())); // add entries to dataset
+        PieDataSet dataSet = new PieDataSet(entries, ""); // add entries to dataset
         chart.getLegend().setTextColor(Color.WHITE);
 
 //        dataSet.setColor(Color.WHITE);
@@ -324,10 +321,10 @@ public class GroupItemFragment extends Fragment {
         Log.d("MATH: ", "totalMoney:"+totalMoney);
         Log.d("MATH: ", "availableMoney:"+availableMoney);
 
-        entries.add(new PieEntry(totalMoney-availableMoney, "Loaned"));
+        entries.add(new PieEntry(totalMoney-availableMoney, "Borrowed"));
         entries.add(new PieEntry(availableMoney, "Available"));
 
-        PieDataSet dataSet = new PieDataSet(entries, " | Total money = "+userGroupDao.getGroupDao().getTotalMoney(group.getId())); // add entries to dataset
+        PieDataSet dataSet = new PieDataSet(entries, ""); // add entries to dataset
         chart.getLegend().setTextColor(Color.WHITE);
         dataSet.setColor(Color.WHITE);
         // set colors #1
@@ -359,7 +356,7 @@ public class GroupItemFragment extends Fragment {
 
     private void investMoney(final long userId, final long groupId){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("How much money do you want invest?");
+        builder.setTitle("How much money do you want to invest?");
         View viewInflated = LayoutInflater.from(getContext())
                 .inflate(R.layout.popup_input_investment, (ViewGroup) getView(), false);
         final EditText input = (EditText) viewInflated.findViewById(R.id.input1);
@@ -383,7 +380,7 @@ public class GroupItemFragment extends Fragment {
                         return;
                     }
                     if (userGroupDao.getUserDao().getUserById(user.getId()).getMoney()<investment){
-                        Toasty.error(getContext(), "Not enought money to invest "+investment, Toast.LENGTH_SHORT).show();
+                        Toasty.error(getContext(), "Not enough money to invest "+investment, Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -403,11 +400,14 @@ public class GroupItemFragment extends Fragment {
 
                     // score bonus
                     userGroupDao.getUserDao().scoreBonus(userId,investment);
+                    Toasty.success(getContext(),
+                                   "You have earned "+((int)(investment*ApplicationInfo.SCORE_BONUS_PERCENT))+" points",
+                                   Toast.LENGTH_SHORT).show();
 
                     Log.d("INVEST: ", "raws: "+raws);
                 }
                 else
-                    Toasty.error(getContext(), "Investment is empty", Toast.LENGTH_SHORT).show();
+                    Toasty.error(getContext(), "Investment field is empty", Toast.LENGTH_SHORT).show();
                 m_Text="";
                 updateAll();
                 dialog.dismiss();
@@ -424,7 +424,7 @@ public class GroupItemFragment extends Fragment {
 
     private void loanMoney(final long userId, final long groupId){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("How much money do you want to loan?");
+        builder.setTitle("How much money do you want to borrow?");
         View viewInflated = LayoutInflater.from(getContext())
                 .inflate(R.layout.popup_input_investment, (ViewGroup) getView(), false);
         final EditText input = (EditText) viewInflated.findViewById(R.id.input1);
@@ -444,12 +444,12 @@ public class GroupItemFragment extends Fragment {
                     catch (Exception e){}
 
                     if (loan==null){
-                        Toasty.error(getContext(), "Cant loan", Toast.LENGTH_SHORT).show();
+                        Toasty.error(getContext(), "Cant borrow", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     // validation group
                     if (userGroupDao.getGroupDao().getAvailableMoney(groupId)<loan){
-                        Toasty.error(getContext(), "Group has not so much available money "+loan, Toast.LENGTH_SHORT).show();
+                        Toasty.error(getContext(), "TEEM has not enough available money "+loan, Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -504,9 +504,12 @@ public class GroupItemFragment extends Fragment {
 
                     // score bonus
                     userGroupDao.getUserDao().scoreBonus(userId,loan);
+                    Toasty.success(getContext(),
+                                   "You have earned "+((int)(loan*ApplicationInfo.SCORE_BONUS_PERCENT))+" points",
+                                   Toast.LENGTH_SHORT).show();
                 }
                 else
-                    Toasty.error(getContext(), "Loan is empty", Toast.LENGTH_SHORT).show();
+                    Toasty.error(getContext(), "Borrow field is empty", Toast.LENGTH_SHORT).show();
                 m_Text="";
                 updateAll();
                 dialog.dismiss();
@@ -525,7 +528,7 @@ public class GroupItemFragment extends Fragment {
         // validation. Does user wants to pay more than loan
         dept = userGroupDao.getUserLoan(userId, groupId);
         if (dept<1.0){
-            Toasty.info(getContext(), "No loans", Toast.LENGTH_SHORT).show();
+            Toasty.info(getContext(), "Nothing to pay back", Toast.LENGTH_SHORT).show();
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -557,12 +560,12 @@ public class GroupItemFragment extends Fragment {
                     if (userMoney<payBack){
                         Log.d("PAYBACK: ", "userMoney: "+userMoney);
                         Log.d("PAYBACK: ", "payBack: "+payBack);
-                        Toasty.error(getContext(), "Not enough money "+payBack, Toast.LENGTH_SHORT).show();
+                        Toasty.error(getContext(), "Not enough money", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     // validation. Check if payBack more than user has to pay
                     if (payBack>dept){
-                        Toasty.error(getContext(), "It is too much money bro, we need only "+dept, Toast.LENGTH_SHORT).show();
+                        Toasty.error(getContext(), "It is too much money, need only "+dept, Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -599,9 +602,13 @@ public class GroupItemFragment extends Fragment {
 
                     // score bonus
                     userGroupDao.getUserDao().scoreBonus(userId,payBack);
+                    Toasty.success(getContext(),
+                                   "You have earned "+((int)(payBack*ApplicationInfo.SCORE_BONUS_PERCENT))+" points",
+                                   Toast.LENGTH_SHORT).show();
+
                 }
                 else
-                    Toasty.error(getContext(), "Pay back is empty", Toast.LENGTH_SHORT).show();
+                    Toasty.error(getContext(), "Pay back field is empty", Toast.LENGTH_SHORT).show();
                 m_Text="";
                 updateAll();
                 dialog.dismiss();
@@ -621,7 +628,7 @@ public class GroupItemFragment extends Fragment {
         //1 validation. Does user has loan
         dept = userGroupDao.getUserLoan(userId, groupId);
         if (dept>1.0){
-            Toasty.info(getContext(), "You have loan you can not leave group", Toast.LENGTH_SHORT).show();
+            Toasty.info(getContext(), "You have loan, can not leave TEEM", Toast.LENGTH_SHORT).show();
             return;
         }
         //2 validation. Does group has enough money to withdraw
@@ -638,7 +645,7 @@ public class GroupItemFragment extends Fragment {
         Log.d("WITHDRAW>", "userMoneyFromGroup: "+userMoneyFromGroup);
         Log.d("WITHDRAW>", "groupAvailable"+groupAvailable);
         if (userMoneyFromGroup>groupAvailable){
-            Toasty.info(getContext(), "Group has no available money to withdraw "+userMoneyFromGroup, Toast.LENGTH_SHORT).show();
+            Toasty.info(getContext(), "TEEM has no available money to pay back "+userMoneyFromGroup, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -680,13 +687,13 @@ public class GroupItemFragment extends Fragment {
         Log.d("WITHDRAW>", "4_________________________");
         Log.d("WITHDRAW>", "rawDeleted: "+rawDeleted);
 
-        Toasty.success(getContext(), "Withdraw all your money bro", Toast.LENGTH_SHORT).show();
+        Toasty.success(getContext(), "All money returned", Toast.LENGTH_SHORT).show();
         goToGroupList();
     }
 
     private void invite(final long senderId, final long groupId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Enter username of person to invite in current group");
+        builder.setTitle("Enter phone number of person to invite in current TEEM");
         View viewInflated = LayoutInflater.from(getContext())
                 .inflate(R.layout.popup_input_group_name, (ViewGroup) getView(), false);
         final EditText input = (EditText) viewInflated.findViewById(R.id.input1);
@@ -708,7 +715,7 @@ public class GroupItemFragment extends Fragment {
                     List<User> usersInThisGroup = userGroupDao.getUsersFromGroup(groupId);
                     for (User u:usersInThisGroup){
                         if (u.getId()==user.getId()){
-                            Toasty.info(getContext(), "This user is in this group already",
+                            Toasty.info(getContext(), "This user is in this TEEM already",
                                          Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -718,7 +725,7 @@ public class GroupItemFragment extends Fragment {
                     Invitation invitation = invitationDao
                             .getInvitation(senderId, user.getId(), groupId);
                     if (invitation!=null){
-                        Toasty.info(getContext(), "You have already send invitation to user with username: "+user.getUserName(),
+                        Toasty.info(getContext(), "You have already send invitation to user : "+user.getUserName(),
                                     Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -735,13 +742,13 @@ public class GroupItemFragment extends Fragment {
                         return;
                     }
                     else {
-                        Toasty.success(getContext(), "Invitation has been send to Person: "+user.getFullName(),
+                        Toasty.success(getContext(), "Invitation has been send to user: "+user.getFullName(),
                                     Toast.LENGTH_SHORT).show();
                     }
 
                 }
                 else
-                    Toasty.error(getContext(), "The field is empty", Toast.LENGTH_SHORT).show();
+                    Toasty.error(getContext(), "Field is empty", Toast.LENGTH_SHORT).show();
                 m_Text="";
 //                updateAll();
                 dialog.dismiss();
