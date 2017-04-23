@@ -43,7 +43,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="64dp"
             android:layout_toEndOf="@+id/item_invitation_from"
-            android:text="GROUP:"
+            android:text="TEEM:"
             android:textAlignment="center"
             android:textSize="8sp"
             android:textStyle="bold|italic"
