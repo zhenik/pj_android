@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.List;
 
@@ -80,6 +83,22 @@ public class InvitationListFragment extends Fragment {
 
     private void initAdapters() {
         List<Invitation> invitations = invitationDao.getInvitationsListOfUser(ApplicationInfo.USER_IN_SYSTEM_ID);
+        TextView noInvitations = (TextView)view.findViewById(R.id.invitations_message);
+        noInvitations.setText("");
+        noInvitations.setVisibility(View.GONE);
+        if (invitations.size()==0) {
+            noInvitations.setVisibility(View.VISIBLE);
+            noInvitations.setText("You have no invitations");
+//            TextView noInvitations = new TextView(getContext());
+//            noInvitations.setText("No invitations");
+//            LinearLayout.LayoutParams params =
+//                    new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                                                  LinearLayout.LayoutParams.WRAP_CONTENT);
+//            noInvitations.setLayoutParams(params);
+//            noInvitations.setGravity(Gravity.START);
+//            ((LinearLayout)view.findViewById(R.id.invitation_layout))
+//                    .addView(noInvitations);
+        }
         Log.d("SENDING.I", " invitations size "+invitations.size());
         Log.d("CRASH1 ", "1 ");
         listOfInvitations=(ListView) view.findViewById(R.id.invitation_list_listView);
@@ -97,7 +116,7 @@ public class InvitationListFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Invitation");
                 builder.setMessage(
-                        invitation.getSendBy().getFullName()+" invite you to group "+invitation.getGroup().getGroupName());
+                        invitation.getSendBy().getFullName()+" invites you to TEEM "+invitation.getGroup().getGroupName());
                 builder.setPositiveButton("Accept",
                                           new DialogInterface.OnClickListener()
                                           {
