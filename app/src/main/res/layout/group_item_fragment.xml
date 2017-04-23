@@ -21,9 +21,9 @@
             <ImageView
                 android:id="@+id/imageYourMoney"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="24dp"
                 android:tint="@color/colorPrimary"
-                app:srcCompat="@mipmap/ic_attach_money_black_24dp"
+                app:srcCompat="@mipmap/ic_coins"
                 />
 
             <TextView
@@ -54,7 +54,7 @@
             <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="24dp"
                 android:tint="@color/colorPrimary"
                 app:srcCompat="@mipmap/ic_file_download_black_24dp"/>
 
@@ -86,7 +86,7 @@
             <ImageView
                 android:id="@+id/imageView6"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="24dp"
                 android:tint="@color/colorPrimary"
                 app:srcCompat="@mipmap/ic_file_upload_black_24dp"/>
 
