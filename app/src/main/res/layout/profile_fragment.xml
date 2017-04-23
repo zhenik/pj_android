@@ -67,8 +67,8 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal"
-                    android:tint="@color/profile_roof"
-                    app:srcCompat="@drawable/dollar"/>
+                    android:tint="@color/my_white"
+                    app:srcCompat="@drawable/coins"/>
 
                 <TextView
                     android:id="@+id/profile_money_txt"
@@ -103,8 +103,8 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal"
-                    android:tint="@color/profile_roof"
-                    app:srcCompat="@drawable/group"/>
+                    android:tint="@color/my_white"
+                    app:srcCompat="@drawable/atom_molecule"/>
 
                 <TextView
                     android:id="@+id/profile_groups_txt"
@@ -119,7 +119,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="GROUPS"/>
+                    android:text="TEEMs"/>
 
             </LinearLayout>
 
@@ -135,8 +135,8 @@
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal"
-                    android:tint="@color/profile_roof"
-                    app:srcCompat="@drawable/star"/>
+                    android:tint="@color/my_white"
+                    app:srcCompat="@drawable/diamond"/>
 
                 <TextView
                     android:id="@+id/profile_score_txt"
@@ -151,7 +151,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="SCORE"/>
+                    android:text="POINTS"/>
             </LinearLayout>
         </LinearLayout>
 

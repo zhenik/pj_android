@@ -91,15 +91,15 @@ public class ProfileFragment extends Fragment {
         mGroups.setText(String.valueOf(amountGroups));
 
         // set default pic TODO: development mode (hardcoded)
-        if ("a".equals(user.getUserName())) mImg.setImageResource(R.drawable.changiz);
-        if ("b".equals(user.getUserName())) mImg.setImageResource(R.drawable.oda);
+        if ("1".equals(user.getUserName())) mImg.setImageResource(R.drawable.changiz);
+        if ("2".equals(user.getUserName())) mImg.setImageResource(R.drawable.oda);
 
-        if ("c".equals(user.getUserName())) mImg.setImageResource(R.drawable.clem);
-        if ("e".equals(user.getUserName())) mImg.setImageResource(R.drawable.elvira);
-        if ("i".equals(user.getUserName())) mImg.setImageResource(R.drawable.ingrid);
-        if ("s".equals(user.getUserName())) mImg.setImageResource(R.drawable.silje);
-        if ("r".equals(user.getUserName())) mImg.setImageResource(R.drawable.rob);
-        if ("n".equals(user.getUserName())) mImg.setImageResource(R.drawable.nik);
+        if ("3".equals(user.getUserName())) mImg.setImageResource(R.drawable.clem);
+        if ("4".equals(user.getUserName())) mImg.setImageResource(R.drawable.elvira);
+        if ("5".equals(user.getUserName())) mImg.setImageResource(R.drawable.ingrid);
+        if ("6".equals(user.getUserName())) mImg.setImageResource(R.drawable.silje);
+        if ("7".equals(user.getUserName())) mImg.setImageResource(R.drawable.rob);
+        if ("8".equals(user.getUserName())) mImg.setImageResource(R.drawable.nik);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class ProfileFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId()==R.id.action_logout){
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Do you want logout?");
+            builder.setTitle("Do you want to logout?");
             builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
