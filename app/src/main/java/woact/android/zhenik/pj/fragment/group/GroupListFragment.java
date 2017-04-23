@@ -73,7 +73,7 @@ public class GroupListFragment extends Fragment {
         if (item.getItemId()==R.id.action_add){
             Log.d("SPECIAL", "I AM HERE");
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Group name");
+            builder.setTitle("TEEM name");
             View viewInflated = LayoutInflater.from(getContext())
                     .inflate(R.layout.popup_input_group_name, (ViewGroup) getView(), false);
             final EditText input = (EditText) viewInflated.findViewById(R.id.input1);
@@ -86,12 +86,12 @@ public class GroupListFragment extends Fragment {
                     if (!TextUtils.isEmpty(m_Text)) {
                         groupId = userGroupDao.getGroupDao().createGroup(m_Text);
                         if (groupId == -1)
-                            Toasty.error(getContext(), "Cant create group with given name", Toast.LENGTH_SHORT).show();
+                            Toasty.error(getContext(), "TEEM with given name already exists", Toast.LENGTH_SHORT).show();
                         else
                             userGroupDao.registerUserInGroup(ApplicationInfo.USER_IN_SYSTEM_ID, groupId);
                     }
                     else
-                        Toasty.error(getContext(), "Group name is empty", Toast.LENGTH_SHORT).show();
+                        Toasty.error(getContext(), "TEEM name is empty", Toast.LENGTH_SHORT).show();
                     m_Text="";
                     onResume();
                     dialog.dismiss();
@@ -112,7 +112,7 @@ public class GroupListFragment extends Fragment {
 
     @Override
     public void onResume() {
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Groups");
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("TEEMs");
         initAdapters();
         super.onResume();
     }
@@ -130,11 +130,11 @@ public class GroupListFragment extends Fragment {
                 Group group = ((Group)groupsListView.getItemAtPosition(position));
                 ApplicationInfo.GROUP_CLICKED=null;
                 ApplicationInfo.GROUP_CLICKED=group.getId();
-                Toast.makeText(
-                        getContext(),
-                        group.getGroupName() + ":"+ApplicationInfo.GROUP_CLICKED,
-                        Toast.LENGTH_SHORT
-                ).show();
+//                Toast.makeText(
+//                        getContext(),
+//                        group.getGroupName() + ":"+ApplicationInfo.GROUP_CLICKED,
+//                        Toast.LENGTH_SHORT
+//                ).show();
                 fm = getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.content, GroupItemFragment.newInstance(group), GroupItemFragment.TAG);
