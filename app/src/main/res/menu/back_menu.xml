@@ -19,21 +19,20 @@
             />
         <item
             android:id="@+id/action_loan"
-            android:title="LOAN"
+            android:title="BORROW"
             />
         <item
             android:id="@+id/action_pay_back"
-            android:title="PAY BACK"
-            />
-        <item
-            android:id="@+id/action_withdraw"
-            android:title="LEAVE GROUP"
+            android:title="PAYBACK"
             />
         <item
             android:id="@+id/action_invite"
-            android:title="INVITE"
+            android:title="INVITE to TEEM"
             />
-
+        <item
+            android:id="@+id/action_withdraw"
+            android:title="LEAVE TEEM"
+            />
 
     </item>
 </menu>
