@@ -62,7 +62,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="11dp"
                     android:layout_toStartOf="@+id/textView102"
-                    app:srcCompat="@drawable/changiz"/>
+                    app:srcCompat="@drawable/logo"/>
 
                 <TextView
                     android:id="@+id/textView102"
@@ -110,7 +110,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="11dp"
                     android:layout_toStartOf="@+id/textView101"
-                    app:srcCompat="@drawable/changiz"/>
+                    app:srcCompat="@drawable/logo"/>
                 <TextView
                     android:id="@+id/textView101"
                     android:layout_width="wrap_content"
@@ -131,9 +131,193 @@
                     android:layout_below="@+id/textView101"
                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
                     android:textColor="@color/profile_body"/>
-
-
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/el_3"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+                <TextView
+                    android:id="@+id/textView113"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/imageView73"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:text="700 points"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"/>
+                <ImageView
+                    android:id="@+id/imageView73"
+                    android:layout_width="75dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="11dp"
+                    android:layout_toStartOf="@+id/textView103"
+                    app:srcCompat="@drawable/logo"/>
+                <TextView
+                    android:id="@+id/textView103"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imageView73"
+                    android:layout_centerHorizontal="true"
+                    android:text="Lorem ipsum dolor sit amet"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/textView123"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imageView73"
+
+                    android:layout_alignStart="@+id/textView103"
+                    android:layout_below="@+id/textView103"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+                    android:textColor="@color/profile_body"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/el_4"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+                <TextView
+                    android:id="@+id/textView114"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/imageView74"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:text="700 points"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"/>
+                <ImageView
+                    android:id="@+id/imageView74"
+                    android:layout_width="75dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="11dp"
+                    android:layout_toStartOf="@+id/textView104"
+                    app:srcCompat="@drawable/logo"/>
+                <TextView
+                    android:id="@+id/textView104"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imageView74"
+                    android:layout_centerHorizontal="true"
+                    android:text="Lorem ipsum dolor sit amet"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/textView124"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imageView74"
+
+                    android:layout_alignStart="@+id/textView104"
+                    android:layout_below="@+id/textView104"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+                    android:textColor="@color/profile_body"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/el_5"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+                <TextView
+                    android:id="@+id/textView115"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/imageView75"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:text="700 points"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"/>
+                <ImageView
+                    android:id="@+id/imageView75"
+                    android:layout_width="75dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="11dp"
+                    android:layout_toStartOf="@+id/textView105"
+                    app:srcCompat="@drawable/logo"/>
+                <TextView
+                    android:id="@+id/textView105"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imageView75"
+                    android:layout_centerHorizontal="true"
+                    android:text="Lorem ipsum dolor sit amet"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/textView125"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imageView75"
+
+                    android:layout_alignStart="@+id/textView105"
+                    android:layout_below="@+id/textView105"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+                    android:textColor="@color/profile_body"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/el_6"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+                <TextView
+                    android:id="@+id/textView116"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignStart="@+id/imageView76"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="10dp"
+                    android:text="700 points"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"/>
+                <ImageView
+                    android:id="@+id/imageView76"
+                    android:layout_width="75dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="11dp"
+                    android:layout_toStartOf="@+id/textView106"
+                    app:srcCompat="@drawable/logo"/>
+                <TextView
+                    android:id="@+id/textView106"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/imageView76"
+                    android:layout_centerHorizontal="true"
+                    android:text="Lorem ipsum dolor sit amet"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/textView126"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imageView76"
+
+                    android:layout_alignStart="@+id/textView106"
+                    android:layout_below="@+id/textView106"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+                    android:textColor="@color/profile_body"/>
+            </RelativeLayout>
+
+
         </LinearLayout>
     </ScrollView>
 
