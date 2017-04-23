@@ -3,7 +3,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
         <item
             android:id="@+id/action_invitation_list"
-            android:icon="@mipmap/ic_menu_white_24dp"
+            android:icon="@mipmap/ic_playlist_add_check_white_24dp"
             android:title="Invitation list"
             app:showAsAction="always"/>
         <item
