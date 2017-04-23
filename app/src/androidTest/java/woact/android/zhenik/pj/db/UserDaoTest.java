@@ -69,8 +69,8 @@ public class UserDaoTest {
 
     @Test
     public void testTryRegisterSameUser(){
-        long id1 = userDao.registerUser(new User("norman", "pass", "fullname", 2.2, 245));
-        long id2 = userDao.registerUser(new User("norman", "pass", "fullname", 2.2, 245));
+        long id1 = userDao.registerUser(new User("99", "pass", "fullname", 2.2, 245));
+        long id2 = userDao.registerUser(new User("99", "pass", "fullname", 2.2, 245));
 
         // Assert
         assertTrue(id1!=-1l); // created
