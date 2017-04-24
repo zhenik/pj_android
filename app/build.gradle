@@ -25,7 +25,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    //    toasty with steroids
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.GrenderG:Toasty:1.1.5'
@@ -33,6 +32,5 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     testCompile 'junit:junit:4.12'
     compile 'com.mikhaellopez:circularimageview:3.0.2'
-    compile 'com.lucasurbas:listitemview:1.0.0'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
 }
