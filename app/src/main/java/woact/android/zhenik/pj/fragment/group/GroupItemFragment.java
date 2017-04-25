@@ -355,7 +355,7 @@ public class GroupItemFragment extends Fragment {
     }
 
     private void investMoney(final long userId, final long groupId){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom);
         builder.setTitle("How much money do you want to invest?");
         View viewInflated = LayoutInflater.from(getContext())
                 .inflate(R.layout.popup_input_investment, (ViewGroup) getView(), false);
@@ -423,7 +423,7 @@ public class GroupItemFragment extends Fragment {
     }
 
     private void loanMoney(final long userId, final long groupId){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom);
         builder.setTitle("How much money do you want to borrow?");
         View viewInflated = LayoutInflater.from(getContext())
                 .inflate(R.layout.popup_input_investment, (ViewGroup) getView(), false);
@@ -531,7 +531,7 @@ public class GroupItemFragment extends Fragment {
             Toasty.info(getContext(), "Nothing to pay back", Toast.LENGTH_SHORT).show();
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom);
         builder.setTitle("How much money do you want to pay back?");
         View viewInflated = LayoutInflater.from(getContext())
                 .inflate(R.layout.popup_input_investment, (ViewGroup) getView(), false);
@@ -692,7 +692,7 @@ public class GroupItemFragment extends Fragment {
     }
 
     private void invite(final long senderId, final long groupId) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom);
         builder.setTitle("Enter phone number of person to invite in current TEEM");
         View viewInflated = LayoutInflater.from(getContext())
                 .inflate(R.layout.popup_input_group_name, (ViewGroup) getView(), false);

@@ -3,6 +3,7 @@ package woact.android.zhenik.pj.fragment.profile;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -113,7 +114,7 @@ public class ProfileFragment extends Fragment {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId()==R.id.action_logout){
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom);
             builder.setTitle("Do you want to logout?");
             builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                 @Override
@@ -131,9 +132,9 @@ public class ProfileFragment extends Fragment {
                     dialog.cancel();
                 }
             });
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-//            builder.show();
+//            AlertDialog alertDialog = builder.create();
+//            alertDialog.show();
+            builder.show();
         }
 
         if (item.getItemId()==R.id.action_invitation_list){

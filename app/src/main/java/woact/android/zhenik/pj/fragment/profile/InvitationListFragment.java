@@ -113,7 +113,7 @@ public class InvitationListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Invitation invitation = ((Invitation)listOfInvitations.getItemAtPosition(position));
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom);
                 builder.setTitle("Invitation");
                 builder.setMessage(
                         invitation.getSendBy().getFullName()+" invites you to TEEM "+invitation.getGroup().getGroupName());
