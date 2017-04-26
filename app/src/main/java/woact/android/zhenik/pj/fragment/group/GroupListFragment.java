@@ -72,7 +72,7 @@ public class GroupListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId()==R.id.action_add){
             Log.d("SPECIAL", "I AM HERE");
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom);
             builder.setTitle("TEEM name");
             View viewInflated = LayoutInflater.from(getContext())
                     .inflate(R.layout.popup_input_group_name, (ViewGroup) getView(), false);
