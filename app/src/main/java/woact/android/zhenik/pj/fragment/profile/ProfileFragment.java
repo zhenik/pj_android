@@ -86,21 +86,21 @@ public class ProfileFragment extends Fragment {
     private void updateInfo(){
         user = userDao.getUserById(ApplicationInfo.USER_IN_SYSTEM_ID);
         mFullname.setText(user.getFullName());
-        mMoney.setText(String.valueOf(user.getMoney()));
-        mScore.setText(String.valueOf(user.getScore()));
+        mMoney.setText(String.valueOf((int)user.getMoney()));
+        mScore.setText(String.valueOf((int)user.getScore()));
         int amountGroups = userGroupDao.getGroupsOfUser(ApplicationInfo.USER_IN_SYSTEM_ID).size();
         mGroups.setText(String.valueOf(amountGroups));
 
         // set default pic TODO: development mode (hardcoded)
-        if ("1".equals(user.getUserName())) mImg.setImageResource(R.drawable.changiz);
-        if ("2".equals(user.getUserName())) mImg.setImageResource(R.drawable.oda);
+        if ("9".equals(user.getUserName())) mImg.setImageResource(R.drawable.changiz);
+        if ("8".equals(user.getUserName())) mImg.setImageResource(R.drawable.oda);
 
-        if ("3".equals(user.getUserName())) mImg.setImageResource(R.drawable.clem);
-        if ("4".equals(user.getUserName())) mImg.setImageResource(R.drawable.elvira);
+        if ("7".equals(user.getUserName())) mImg.setImageResource(R.drawable.clem);
+        if ("6".equals(user.getUserName())) mImg.setImageResource(R.drawable.elvira);
         if ("5".equals(user.getUserName())) mImg.setImageResource(R.drawable.ingrid);
-        if ("6".equals(user.getUserName())) mImg.setImageResource(R.drawable.silje);
-        if ("7".equals(user.getUserName())) mImg.setImageResource(R.drawable.rob);
-        if ("8".equals(user.getUserName())) mImg.setImageResource(R.drawable.nik);
+        if ("4".equals(user.getUserName())) mImg.setImageResource(R.drawable.silje);
+        if ("3".equals(user.getUserName())) mImg.setImageResource(R.drawable.rob);
+        if ("2".equals(user.getUserName())) mImg.setImageResource(R.drawable.nik);
     }
 
     @Override
