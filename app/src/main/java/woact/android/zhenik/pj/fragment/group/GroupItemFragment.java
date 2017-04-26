@@ -273,9 +273,9 @@ public class GroupItemFragment extends Fragment {
 //        Log.d("MATH: ", "income:"+income);
 //        Log.d("MATH: ", "other:"+other);
 
-        entries.add(new PieEntry(investment, "Investments"));
-        entries.add(new PieEntry(income, "Interests"));
-        entries.add(new PieEntry(other, "Other investments"));
+        entries.add(new PieEntry(investment, " My investments"));
+        entries.add(new PieEntry(income, " My interests"));
+        entries.add(new PieEntry(other, "Other"));
 //        entries.add(new PieEntry(pot.getTotalLoaned(), "Loaned"));
 //        if (pot.getUserLoan(user.getName())>0)
 //            entries.add(new PieEntry(pot.getUserLoan(user.getName()), "Your loan"));
