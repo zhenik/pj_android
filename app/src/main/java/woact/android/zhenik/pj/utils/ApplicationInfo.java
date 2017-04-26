@@ -9,7 +9,7 @@ public class ApplicationInfo implements Serializable {
     public static final String USER ="USER";
     public static long USER_IN_SYSTEM_ID;
     public static Long GROUP_CLICKED=null;
-    public static final Double LOAN_PERCENT=0.05;
+    public static final Double LOAN_PERCENT=0.1;
     public static final Double SCORE_BONUS_PERCENT=0.1;
 
 }
