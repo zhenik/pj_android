@@ -60,7 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     else{
                         Toasty.success(getApplicationContext(), "user is registered", Toast.LENGTH_SHORT).show();
                         // score feature + 1000 score for registration
-                        userDao.scoreBonus(id, 10000);
+                        userDao.scoreBonus(id, 0);
                         Intent redirect = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(redirect);
                     }
