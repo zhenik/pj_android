@@ -64,30 +64,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     private void devModeDummyData(){
         DummyDataFactory ddF = new DummyDataFactory();
-        ddF.addUserDevMode(new User("1", "1", "Changiz Hosseini", 5, 150));
-        ddF.addUserDevMode(new User("2", "2", "Oda Humlung", 65000, 250));
+        ddF.addUserDevMode(new User("9", "9", "Changiz Hosseini", 1000, 0));
+        ddF.addUserDevMode(new User("8", "8", "Oda Humlung", 1000, 0));
 
-        ddF.addUserDevMode(new User("3", "3", "Clement Marescaux", 35000, 50));
-        ddF.addUserDevMode(new User("4", "4", "Elvira Semenova", 65000, 250));
-        ddF.addUserDevMode(new User("5", "5", "Ingrid Kjensli Moe", 65000, 150));
-        ddF.addUserDevMode(new User("6", "6", "Silje Lilleeng Johnsen", 65000, 450));
-        ddF.addUserDevMode(new User("7", "7", "Robert Eikeland", 15000, 10));
-        ddF.addUserDevMode(new User("8", "8", "Hustle Man", 100000, 1000));
+        ddF.addUserDevMode(new User("7", "7", "Clement Marescaux", 1000, 0));
+        ddF.addUserDevMode(new User("6", "6", "Elvira Semenova", 1000, 0));
+        ddF.addUserDevMode(new User("5", "5", "Ingrid Kjensli Moe", 1000, 0));
+        ddF.addUserDevMode(new User("4", "4", "Silje Lilleeng Johnsen", 1000, 0));
+        ddF.addUserDevMode(new User("3", "3", "Robert Eikeland", 1000, 0));
+        ddF.addUserDevMode(new User("2", "2", "Hustle Man", 100000, 1000));
 
 
-        ddF.addGroupDevMode(new Group(1, 13000, 13000, "Friends"));
-        ddF.addGroupDevMode(new Group(2,22000,20000, "Family"));
-        ddF.addGroupDevMode(new Group(3,13000,7000, "Banda"));
+        ddF.addGroupDevMode(new Group(1, 1000, 1000, "Familien"));
+//        ddF.addGroupDevMode(new Group(2,22000,20000, "Family"));
+//        ddF.addGroupDevMode(new Group(3,13000,7000, "Banda"));
 //        GroupDao groupDao = new GroupDao();
 //        groupDao.setGroupName(1, "Friends");
 //        groupDao.setGroupName(2, "Family");
 //        groupDao.setGroupName(3, "Banda");
 
-        ddF.addUserGroupDevMode(1,1,1,5000,0);
-        ddF.addUserGroupDevMode(2,2,1,5000,0);
-        ddF.addUserGroupDevMode(3,2,2,20000,0);
-        ddF.addUserGroupDevMode(4,1,3,5000,1000);
-        ddF.addUserGroupDevMode(5,2,3,5000,2000);
+        ddF.addUserGroupDevMode(1,3,1,700,0); // Clem
+        ddF.addUserGroupDevMode(2,2,1,300,0); // Oda
+        ddF.addUserGroupDevMode(3,1,1,0,0); // ChanyGranny
+//        ddF.addUserGroupDevMode(4,1,3,5000,1000);
+//        ddF.addUserGroupDevMode(5,2,3,5000,2000);
         Log.d("DUMMY:", "______________________");
         Log.d("DUMMY:", "dummy data was created");
         Log.d("DUMMY:", "----------------------");
