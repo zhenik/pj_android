@@ -9,7 +9,7 @@ Our concept introduces a whole new way of lending and spending. Wouldn't the ide
 ## How to setup
 1. From project root folder  
     
-    `gradle build`  
+    `./gradlew build`  
 
 2. Upload `~/app/build/outputs/apk/app-debug.apk` on device
 
